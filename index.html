@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIMALCULES - Laboratorio di Ricerca Microbiologica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#0EA5E9', // Sky 500
+                            green: '#10B981', // Emerald 500
+                            dark: '#0B1120', // Very dark blue
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'blob': 'blob 10s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0B1120;
+            color: #F8FAFC;
+            overflow-x: hidden;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-panel {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(to right, #0EA5E9, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .custom-svg-shadow {
+            filter: drop-shadow(0 0 30px rgba(16, 185, 129, 0.25));
+        }
+
+        /* Dropdown */
+        #dropdown-menu {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: top center;
+        }
+        .dropdown-hidden {
+            opacity: 0;
+            transform: scaleY(0.9) translateY(-10px);
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .dropdown-visible {
+            opacity: 1;
+            transform: scaleY(1) translateY(0);
+            visibility: visible;
+            pointer-events: auto;
+        }
+        
+        /* Active Link state */
+        .nav-link.active {
+            background: rgba(16, 185, 129, 0.1);
+            border-bottom: 2px solid #10B981;
+            color: #10B981;
+            border-radius: 0.5rem;
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-green selection:text-brand-dark">
+
+    <div class="fixed inset-0 w-full h-full z-[-1] overflow-hidden pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-brand-blue/10 rounded-full mix-blend-screen filter blur-[100px] animate-blob"></div>
+        <div class="absolute top-[30%] right-[-10%] w-[35rem] h-[35rem] bg-brand-green/10 rounded-full mix-blend-screen filter blur-[100px] animate-blob" style="animation-delay: 3s;"></div>
+        <div class="absolute bottom-[-20%] left-[20%] w-[45rem] h-[45rem] bg-teal-600/10 rounded-full mix-blend-screen filter blur-[120px] animate-blob" style="animation-delay: 6s;"></div>
+    </div>
+
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 py-3 px-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto glass rounded-2xl p-2 shadow-2xl flex flex-col xl:flex-row items-center justify-between">
+            
+            <a href="#" class="text-xl font-bold tracking-widest text-white px-4 py-2 hidden xl:block mb-2 xl:mb-0">
+                <span class="text-brand-blue">ANIMAL</span><span class="text-brand-green">CULES</span>
+            </a>
+
+            <ul class="flex flex-wrap items-center justify-center gap-1 md:gap-2 w-full xl:w-auto">
+                
+                <!-- 1. NdR2026 -->
+                <li class="relative group z-50">
+                    <button id="ndr-btn" class="nav-link flex items-center justify-center px-3 md:px-4 py-2 rounded-lg bg-gradient-to-r from-brand-blue/10 to-brand-green/10 border border-brand-green/30 hover:border-brand-green/70 text-white font-semibold transition-all">
+                        NdR2026
+                        <svg class="w-4 h-4 ml-1 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="dropdown-menu" class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-48 glass rounded-xl overflow-hidden dropdown-hidden shadow-xl border border-white/10">
+                        <a href="#ndr2026" class="block px-4 py-3 hover:bg-brand-green/20 text-brand-green font-bold text-center border-b border-white/5 transition-colors">
+                            Gioca
+                        </a>
+                        <a href="#ndr2026" class="block px-4 py-3 hover:bg-white/10 text-slate-300 text-sm text-center transition-colors">
+                            Info Evento
+                        </a>
+                    </div>
+                </li>
+
+                <!-- 2-8 Links -->
+                <li><a href="#antibiotici" class="nav-link block px-2 md:px-4 py-2 hover:bg-white/5 text-slate-300 text-xs md:text-sm font-medium transition-all">Antibiotici</a></li>
+                <li><a href="#resistenza" class="nav-link block px-2 md:px-4 py-2 hover:bg-white/5 text-slate-300 text-xs md:text-sm font-medium transition-all">Antibiotico resistenza</a></li>
+                <li><a href="#virus" class="nav-link block px-2 md:px-4 py-2 hover:bg-white/5 text-slate-300 text-xs md:text-sm font-medium transition-all">Virus</a></li>
+                <li><a href="#protozoi" class="nav-link block px-2 md:px-4 py-2 hover:bg-white/5 text-slate-300 text-xs md:text-sm font-medium transition-all">Protozoi</a></li>
+                <li><a href="#cure" class="nav-link block px-2 md:px-4 py-2 hover:bg-white/5 text-brand-blue/90 font-bold text-xs md:text-sm transition-all">Cure</a></li>
+                <li><a href="#patogenesi" class="nav-link block px-2 md:px-4 py-2 hover:bg-white/5 text-teal-400 font-bold text-xs md:text-sm transition-all">Patogenesi</a></li>
+                <li><a href="#evoluzioni" class="nav-link block px-2 md:px-4 py-2 hover:bg-white/5 text-brand-green/90 font-bold text-xs md:text-sm transition-all">Evoluzioni</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="min-h-screen flex flex-col items-center justify-center relative px-4 pt-32 text-center reveal">
+        <div class="z-10 max-w-5xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-brand-green/30 text-brand-green text-sm font-semibold tracking-widest mb-8 uppercase">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-green"></span>
+                </span>
+                Laboratorio di Ricerca Microbiologica
+            </div>
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-teal-400 to-brand-green drop-shadow-lg">
+                ANIMALCULES
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto font-light leading-relaxed">
+                Esploriamo l'invisibile per proteggere il nostro futuro. <br class="hidden md:block">Ricerca d'avanguardia su microrganismi, patogenesi ed evoluzione.
+            </p>
+        </div>
+        <a href="#ndr2026" class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-slate-400 hover:text-brand-green transition-colors">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </a>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        
+        <section id="ndr2026" class="min-h-screen flex items-center pt-24 pb-12 scroll-mt-24">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 w-full">
+                <div class="flex-1 space-y-6 reveal-left">
+                    <h2 class="text-4xl md:text-6xl font-black text-white">Notte dei Ricercatori <span class="text-gradient">2026</span></h2>
+                    <div class="glass-panel p-8 rounded-3xl">
+                        <p class="text-lg text-slate-300 leading-relaxed mb-4">
+                            Quest'anno <strong class="text-white font-semibold">ANIMALCULES</strong> partecipa all'evento internazionale con un'esperienza interattiva unica. Scopri il mondo affascinante della microbiologia attraverso il nostro serious game educativo.
+                        </p>
+                        <p class="text-lg text-slate-300 leading-relaxed mb-8">
+                            Mettiti nei panni di un ricercatore: identifica i patogeni, sintetizza cure in un laboratorio virtuale e contribuisci a salvare vite umane espandendo la tua conoscenza!
+                        </p>
+                        <button class="px-8 py-4 bg-gradient-to-r from-brand-blue to-brand-green rounded-xl text-white font-bold text-lg hover:shadow-[0_0_25px_rgba(16,185,129,0.5)] transform hover:-translate-y-1 transition-all flex items-center gap-3">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            Gioca Ora
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-1 w-full max-w-lg lg:max-w-full animate-float custom-svg-shadow reveal-right">
+                    <!-- SVG: Lab Flask Game -->
+                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                        <defs>
+                            <linearGradient id="flaskGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#0EA5E9" />
+                                <stop offset="100%" stop-color="#10B981" />
+                            </linearGradient>
+                            <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="rgba(255,255,255,0.3)" />
+                                <stop offset="100%" stop-color="rgba(255,255,255,0.05)" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M170,100 L170,50 C170,38.954 178.954,30 190,30 L210,30 C221.046,30 230,38.954 230,50 L230,100 L325.656,268.484 C338.601,290.931 322.449,320 296.541,320 L103.459,320 C77.551,320 61.399,290.931 74.344,268.484 L170,100 Z" fill="url(#glassGrad)" stroke="rgba(255,255,255,0.5)" stroke-width="6"/>
+                        <path d="M121,230 L279,230 L315.5,295 C322.5,307 313,320 300,320 L100,320 C87,320 77.5,307 84.5,295 L121,230 Z" fill="url(#flaskGrad)"/>
+                        <circle cx="150" cy="280" r="15" fill="#fff" opacity="0.6"><animate attributeName="cy" values="280;230;280" dur="3s" repeatCount="indefinite"/></circle>
+                        <circle cx="210" cy="290" r="20" fill="#fff" opacity="0.4"><animate attributeName="cy" values="290;240;290" dur="4s" repeatCount="indefinite"/></circle>
+                        <circle cx="250" cy="270" r="10" fill="#fff" opacity="0.5"><animate attributeName="cy" values="270;230;270" dur="2.5s" repeatCount="indefinite"/></circle>
+                        <!-- Game controller element inside -->
+                        <rect x="160" y="240" width="80" height="50" rx="25" fill="rgba(11, 17, 32, 0.8)" stroke="#10B981" stroke-width="3"/>
+                        <circle cx="185" cy="265" r="8" fill="#0EA5E9"/>
+                        <circle cx="215" cy="265" r="8" fill="#10B981"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="antibiotici" class="min-h-screen flex items-center pt-24 pb-12 scroll-mt-24">
+            <div class="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20 w-full">
+                <div class="flex-1 w-full max-w-lg lg:max-w-full animate-float custom-svg-shadow reveal-left" style="animation-delay: -1s;">
+                    <!-- SVG: Antibiotics -->
+                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                        <defs>
+                            <linearGradient id="pillBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#0EA5E9" />
+                                <stop offset="100%" stop-color="#0284C7" />
+                            </linearGradient>
+                            <linearGradient id="pillWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#F8FAFC" />
+                                <stop offset="100%" stop-color="#94A3B8" />
+                            </linearGradient>
+                        </defs>
+                        <g transform="translate(200, 200) rotate(35) translate(-200, -200)">
+                            <rect x="90" y="160" width="220" height="80" rx="40" fill="url(#pillWhite)" />
+                            <path d="M140,160 L200,160 L200,240 L140,240 C117.909,240 100,222.091 100,200 C100,177.909 117.909,160 140,160 Z" fill="url(#pillBlue)" />
+                            <line x1="120" y1="175" x2="280" y2="175" stroke="rgba(255,255,255,0.7)" stroke-width="12" stroke-linecap="round"/>
+                        </g>
+                        <g transform="translate(80, 80) rotate(-20) scale(0.6)">
+                            <rect x="0" y="0" width="220" height="80" rx="40" fill="url(#pillWhite)" />
+                            <path d="M40,0 L110,0 L110,80 L40,80 C17.909,80 0,62.091 0,40 C0,17.909 17.909,0 40,0 Z" fill="#10B981" />
+                            <line x1="20" y1="15" x2="200" y2="15" stroke="rgba(255,255,255,0.7)" stroke-width="12" stroke-linecap="round"/>
+                        </g>
+                        <path d="M50,320 C100,280 150,360 200,320 S300,380 350,300" fill="none" stroke="rgba(16, 185, 129, 0.3)" stroke-width="4" stroke-dasharray="10,10"/>
+                    </svg>
+                </div>
+                <div class="flex-1 space-y-6 reveal-right">
+                    <h2 class="text-4xl md:text-6xl font-black text-white">Gli <span class="text-gradient">Antibiotici</span></h2>
+                    <div class="glass-panel p-8 rounded-3xl border-l-4 border-l-brand-blue">
+                        <p class="text-lg text-slate-300 leading-relaxed mb-4">
+                            Armi molecolari formidabili che hanno rivoluzionato la medicina. Gli antibiotici inibiscono la crescita dei batteri patogeni o li distruggono, agendo su bersagli specifici delle cellule batteriche (come la parete cellulare o i ribosomi) senza danneggiare le cellule umane.
+                        </p>
+                        <p class="text-lg text-slate-300 leading-relaxed">
+                            <strong>La nostra ricerca:</strong> In ANIMALCULES isoliamo e caratterizziamo nuovi composti bioattivi da microbiomi ambientali estremi. Analizziamo le loro strutture tramite cristallografia per ingegnerizzare farmaci di nuova generazione.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="resistenza" class="min-h-screen flex items-center pt-24 pb-12 scroll-mt-24">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 w-full">
+                <div class="flex-1 space-y-6 reveal-left">
+                    <h2 class="text-4xl md:text-6xl font-black text-white">L'Antibiotico <span class="text-gradient">Resistenza</span></h2>
+                    <div class="glass-panel p-8 rounded-3xl border-l-4 border-l-red-500">
+                        <p class="text-lg text-slate-300 leading-relaxed mb-4">
+                            L'adattamento implacabile dei batteri rappresenta una delle maggiori crisi sanitarie globali. Attraverso mutazioni genetiche e selezione naturale, i patogeni sviluppano difese per neutralizzare i farmaci esistenti.
+                        </p>
+                        <ul class="space-y-4 text-slate-300">
+                            <li class="flex items-start gap-3">
+                                <span class="text-red-500 font-bold text-xl mt-1">✓</span>
+                                <span><strong>Pompe di efflusso:</strong> Studiamo le proteine di membrana che espellono fisicamente l'antibiotico fuori dalla cellula prima che possa agire.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-red-500 font-bold text-xl mt-1">✓</span>
+                                <span><strong>Trasferimento genico:</strong> Tracciamo come i plasmidi contenenti geni di resistenza vengono scambiati tra specie batteriche differenti.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex-1 w-full max-w-lg lg:max-w-full animate-float custom-svg-shadow reveal-right" style="animation-delay: -2s;">
+                    <!-- SVG: Shielded Bacteria -->
+                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                        <defs>
+                            <linearGradient id="shieldHex" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="rgba(239, 68, 68, 0.4)" />
+                                <stop offset="100%" stop-color="rgba(16, 185, 129, 0.1)" />
+                            </linearGradient>
+                            <radialGradient id="bacBody" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#10B981" />
+                                <stop offset="100%" stop-color="#047857" />
+                            </radialGradient>
+                        </defs>
+                        <!-- Forcefield/Shield -->
+                        <polygon points="200,30 350,100 350,260 200,360 50,260 50,100" fill="url(#shieldHex)" stroke="#EF4444" stroke-width="4" opacity="0.8"/>
+                        <!-- Bacterium -->
+                        <rect x="130" y="140" width="140" height="110" rx="55" fill="url(#bacBody)" />
+                        <!-- DNA ring (Plasmid) -->
+                        <circle cx="200" cy="195" r="25" fill="none" stroke="#0EA5E9" stroke-width="5" stroke-dasharray="10,5"/>
+                        <!-- Deflected attacks -->
+                        <path d="M380,120 L330,150" stroke="#0EA5E9" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="380" cy="120" r="8" fill="#0EA5E9"/>
+                        <path d="M20,200 L60,200" stroke="#F59E0B" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="20" cy="200" r="8" fill="#F59E0B"/>
+                        <!-- Flash effect on shield -->
+                        <path d="M320,130 C300,160 300,200 330,230" fill="none" stroke="#fff" stroke-width="3" opacity="0.5"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="virus" class="min-h-screen flex items-center pt-24 pb-12 scroll-mt-24">
+            <div class="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20 w-full">
+                <div class="flex-1 w-full max-w-lg lg:max-w-full animate-float custom-svg-shadow reveal-left" style="animation-delay: -1.5s;">
+                    <!-- SVG: Virus / Bacteriophage -->
+                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                        <defs>
+                            <linearGradient id="phageHead" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#38BDF8" />
+                                <stop offset="100%" stop-color="#1E3A8A" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Host surface -->
+                        <path d="M0,360 Q200,320 400,360 L400,400 L0,400 Z" fill="#064E3B" opacity="0.6"/>
+                        <!-- Phage -->
+                        <g transform="translate(0, -20)">
+                            <!-- Icosahedral Head -->
+                            <polygon points="200,70 250,110 250,170 200,210 150,170 150,110" fill="url(#phageHead)" stroke="#0EA5E9" stroke-width="4" stroke-linejoin="round"/>
+                            <line x1="200" y1="70" x2="200" y2="140" stroke="#0EA5E9" stroke-width="3"/>
+                            <line x1="150" y1="110" x2="200" y2="140" stroke="#0EA5E9" stroke-width="3"/>
+                            <line x1="250" y1="110" x2="200" y2="140" stroke="#0EA5E9" stroke-width="3"/>
+                            <line x1="150" y1="170" x2="200" y2="140" stroke="#0EA5E9" stroke-width="3"/>
+                            <line x1="250" y1="170" x2="200" y2="140" stroke="#0EA5E9" stroke-width="3"/>
+                            <line x1="200" y1="210" x2="200" y2="140" stroke="#0EA5E9" stroke-width="3"/>
+                            <!-- DNA Coil -->
+                            <path d="M185,110 Q200,130 185,150 Q200,170 185,190" fill="none" stroke="#10B981" stroke-width="5"/>
+                            <!-- Sheath -->
+                            <rect x="190" y="210" width="20" height="90" fill="#0284C7" />
+                            <line x1="180" y1="230" x2="220" y2="230" stroke="#38BDF8" stroke-width="4"/>
+                            <line x1="180" y1="250" x2="220" y2="250" stroke="#38BDF8" stroke-width="4"/>
+                            <line x1="180" y1="270" x2="220" y2="270" stroke="#38BDF8" stroke-width="4"/>
+                            <line x1="180" y1="290" x2="220" y2="290" stroke="#38BDF8" stroke-width="4"/>
+                            <!-- Base plate & Fibers -->
+                            <rect x="175" y="300" width="50" height="10" rx="5" fill="#10B981" />
+                            <path d="M175,305 L120,370" fill="none" stroke="#38BDF8" stroke-width="6" stroke-linecap="round"/>
+                            <path d="M225,305 L280,370" fill="none" stroke="#38BDF8" stroke-width="6" stroke-linecap="round"/>
+                            <path d="M190,310 L160,390" fill="none" stroke="#0EA5E9" stroke-width="4" stroke-linecap="round"/>
+                            <path d="M210,310 L240,390" fill="none" stroke="#0EA5E9" stroke-width="4" stroke-linecap="round"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="flex-1 space-y-6 reveal-right">
+                    <h2 class="text-4xl md:text-6xl font-black text-white">I <span class="text-gradient">Virus</span></h2>
+                    <div class="glass-panel p-8 rounded-3xl">
+                        <p class="text-lg text-slate-300 leading-relaxed mb-4">
+                            Entità biologiche che sfidano la definizione stessa di vita. Infiltrandosi nelle cellule ospiti, i virus ne riprogrammano i macchinari molecolari per replicare il proprio materiale genetico, causando alterazioni drastiche.
+                        </p>
+                        <p class="text-lg text-slate-300 leading-relaxed">
+                            <strong>Focus virologico:</strong> Il nostro dipartimento si concentra sui meccanismi di <em>spillover</em> (salto di specie) e sull'interazione dinamica tra le proteine di superficie virale e i recettori delle cellule umane, fondamento essenziale per lo sviluppo di vaccini universali.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="protozoi" class="min-h-screen flex items-center pt-24 pb-12 scroll-mt-24">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 w-full">
+                <div class="flex-1 space-y-6 reveal-left">
+                    <h2 class="text-4xl md:text-6xl font-black text-white">I <span class="text-gradient">Protozoi</span></h2>
+                    <div class="glass-panel p-8 rounded-3xl">
+                        <p class="text-lg text-slate-300 leading-relaxed mb-4">
+                            Organismi eucarioti unicellulari estremamente complessi. Dotati di strutture specializzate per il movimento (ciglia, flagelli, pseudopodi) e per la nutrizione, rappresentano un nodo cruciale negli ecosistemi e nella patologia umana.
+                        </p>
+                        <p class="text-lg text-slate-300 leading-relaxed">
+                            <strong>Ricerca Parassitologica:</strong> Indaghiamo i cicli vitali dei protozoi responsabili di gravi malattie infettive (es. Plasmodium, Leishmania). Comprendere come eludono il sistema immunitario ci permette di identificare vulnerabilità uniche nel loro metabolismo.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex-1 w-full max-w-lg lg:max-w-full animate-float custom-svg-shadow reveal-right" style="animation-delay: -0.5s;">
+                    <!-- SVG: Protozoa (Paramecium) -->
+                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                        <defs>
+                            <linearGradient id="protoBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#10B981" />
+                                <stop offset="100%" stop-color="#047857" />
+                            </linearGradient>
+                            <radialGradient id="nucleus" cx="30%" cy="30%" r="70%">
+                                <stop offset="0%" stop-color="#0EA5E9" />
+                                <stop offset="100%" stop-color="#1E3A8A" />
+                            </radialGradient>
+                        </defs>
+                        <!-- Cilia (Hair-like structures) -->
+                        <g stroke="#34D399" stroke-width="3" stroke-linecap="round">
+                            <!-- Top -->
+                            <path d="M120,70 L100,50 M160,50 L150,30 M220,50 L230,30 M280,75 L305,55 M320,120 L345,105" />
+                            <!-- Right -->
+                            <path d="M340,180 L365,175 M330,240 L355,250 M290,300 L310,320" />
+                            <!-- Bottom -->
+                            <path d="M220,340 L230,365 M150,330 L130,355 M95,280 L70,300" />
+                            <!-- Left -->
+                            <path d="M60,200 L35,200 M75,130 L50,110" />
+                        </g>
+                        <!-- Body -->
+                        <path d="M100,100 C180,20 280,50 320,130 C360,210 330,300 250,330 C170,360 80,310 60,220 C40,130 60,130 100,100 Z" fill="url(#protoBody)" stroke="#34D399" stroke-width="4"/>
+                        <!-- Macronucleus -->
+                        <ellipse cx="200" cy="180" rx="40" ry="65" transform="rotate(-40 200 180)" fill="url(#nucleus)"/>
+                        <!-- Vacuoles -->
+                        <circle cx="260" cy="110" r="18" fill="rgba(255,255,255,0.2)" stroke="#34D399" stroke-width="2"/>
+                        <path d="M260,85 L260,135 M235,110 L285,110" stroke="#34D399" stroke-width="2"/>
+                        <circle cx="110" cy="250" r="22" fill="rgba(255,255,255,0.2)" stroke="#34D399" stroke-width="2"/>
+                        <path d="M110,220 L110,280 M80,250 L140,250 M90,230 L130,270 M90,270 L130,230" stroke="#34D399" stroke-width="2"/>
+                        <!-- Organelles -->
+                        <circle cx="150" cy="110" r="8" fill="#0EA5E9"/>
+                        <circle cx="250" cy="270" r="12" fill="#0EA5E9"/>
+                        <circle cx="280" cy="200" r="6" fill="#0EA5E9"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="cure" class="min-h-screen flex items-center pt-24 pb-12 scroll-mt-24">
+            <div class="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20 w-full">
+                <div class="flex-1 w-full max-w-lg lg:max-w-full animate-float custom-svg-shadow reveal-left">
+                    <!-- SVG: Cure / DNA Cross -->
+                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                        <defs>
+                            <linearGradient id="crossGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#0EA5E9" />
+                                <stop offset="100%" stop-color="#10B981" />
+                            </linearGradient>
+                            <radialGradient id="glowCross" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="rgba(16, 185, 129, 0.4)" />
+                                <stop offset="100%" stop-color="rgba(16, 185, 129, 0)" />
+                            </radialGradient>
+                        </defs>
+                        <!-- Glow -->
+                        <circle cx="200" cy="200" r="150" fill="url(#glowCross)"/>
+                        <!-- Medical Cross Base -->
+                        <path d="M170,80 L230,80 L230,170 L320,170 L320,230 L230,230 L230,320 L170,320 L170,230 L80,230 L80,170 L170,170 Z" fill="rgba(15, 23, 42, 0.8)" stroke="url(#crossGrad)" stroke-width="8" stroke-linejoin="round"/>
+                        <!-- DNA Helix inside Cross -->
+                        <path d="M200,100 C170,130 170,170 200,200 C230,230 230,270 200,300" fill="none" stroke="#0EA5E9" stroke-width="6" stroke-linecap="round"/>
+                        <path d="M200,100 C230,130 230,170 200,200 C170,230 170,270 200,300" fill="none" stroke="#10B981" stroke-width="6" stroke-linecap="round"/>
+                        <!-- Connections -->
+                        <line x1="185" y1="120" x2="215" y2="120" stroke="white" stroke-width="3"/>
+                        <line x1="175" y1="150" x2="225" y2="150" stroke="white" stroke-width="3"/>
+                        <line x1="175" y1="250" x2="225" y2="250" stroke="white" stroke-width="3"/>
+                        <line x1="185" y1="280" x2="215" y2="280" stroke="white" stroke-width="3"/>
+                        <!-- Sparkles -->
+                        <circle cx="100" cy="120" r="4" fill="#38BDF8"><animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/></circle>
+                        <circle cx="300" cy="100" r="6" fill="#10B981"><animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/></circle>
+                        <circle cx="280" cy="280" r="5" fill="#38BDF8"><animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite"/></circle>
+                    </svg>
+                </div>
+                <div class="flex-1 space-y-6 reveal-right">
+                    <h2 class="text-4xl md:text-6xl font-black text-white">Le <span class="text-gradient">Cure</span></h2>
+                    <div class="glass-panel p-8 rounded-3xl border-l-4 border-l-brand-blue">
+                        <p class="text-lg text-slate-300 leading-relaxed mb-4">
+                            Il traguardo ultimo della nostra ricerca è la traslazione delle scoperte molecolari in terapie cliniche salvavita. Sviluppiamo e testiamo in vitro approcci terapeutici innovativi per combattere le infezioni più ostinate.
+                        </p>
+                        <p class="text-lg text-slate-300 leading-relaxed">
+                            <strong>Medicina del futuro:</strong> Utilizziamo biotecnologie avanzate, come la terapia fagica (l'uso di virus per uccidere batteri specifici) e l'ingegneria dei peptidi antimicrobici, creando cure personalizzate e riducendo l'impatto collaterale sul microbioma umano.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="patogenesi" class="min-h-screen flex items-center pt-24 pb-12 scroll-mt-24">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 w-full">
+                <div class="flex-1 space-y-6 reveal-left">
+                    <h2 class="text-4xl md:text-6xl font-black text-white">La <span class="text-gradient">Patogenesi</span></h2>
+                    <div class="glass-panel p-8 rounded-3xl border-l-4 border-l-teal-400">
+                        <p class="text-lg text-slate-300 leading-relaxed mb-4">
+                            Studiamo nel dettaglio <em>come</em> i microrganismi causano malattie. La patogenesi è il complesso processo di interazione ostile tra l'invasore e le difese dell'ospite.
+                        </p>
+                        <p class="text-lg text-slate-300 leading-relaxed">
+                            <strong>Dinamiche molecolari:</strong> Mappiamo i "fattori di virulenza": le molecole che permettono ai patogeni di aderire ai tessuti, secernere tossine, ed eludere i globuli bianchi del sistema immunitario. Conoscere il piano d'attacco ci permette di intercettare l'infezione sul nascere.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex-1 w-full max-w-lg lg:max-w-full animate-float custom-svg-shadow reveal-right" style="animation-delay: -1s;">
+                    <!-- SVG: Pathogenesis / Cell Infection -->
+                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                        <defs>
+                            <linearGradient id="hostCell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#1E3A8A" />
+                                <stop offset="100%" stop-color="#0B1120" />
+                            </linearGradient>
+                            <radialGradient id="pathogenGlow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#EF4444" />
+                                <stop offset="100%" stop-color="transparent" />
+                            </radialGradient>
+                        </defs>
+                        <!-- Host Cell Membrane -->
+                        <path d="M50,400 Q150,250 400,280 L400,400 Z" fill="url(#hostCell)" stroke="#0EA5E9" stroke-width="6"/>
+                        <!-- Cell Receptors -->
+                        <path d="M120,320 L100,280 M90,280 L110,280" stroke="#0EA5E9" stroke-width="5" stroke-linecap="round"/>
+                        <path d="M220,290 L230,240 M215,245 L245,235" stroke="#0EA5E9" stroke-width="5" stroke-linecap="round"/>
+                        <path d="M320,285 L350,250 M340,240 L360,260" stroke="#0EA5E9" stroke-width="5" stroke-linecap="round"/>
+                        
+                        <!-- Pathogens Attacking -->
+                        <!-- Pathogen 1 (Attaching) -->
+                        <g transform="translate(240, 160)">
+                            <circle cx="0" cy="0" r="40" fill="url(#pathogenGlow)" opacity="0.6"/>
+                            <circle cx="0" cy="0" r="25" fill="#B91C1C" stroke="#F87171" stroke-width="3"/>
+                            <!-- Spikes -->
+                            <line x1="0" y1="-25" x2="0" y2="-40" stroke="#F87171" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="0" y1="25" x2="0" y2="40" stroke="#F87171" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="-25" y1="0" x2="-40" y2="0" stroke="#F87171" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="25" y1="0" x2="40" y2="0" stroke="#F87171" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="-18" y1="-18" x2="-28" y2="-28" stroke="#F87171" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="18" y1="18" x2="28" y2="28" stroke="#F87171" stroke-width="4" stroke-linecap="round"/>
+                            <!-- Injecting material -->
+                            <path d="M0,40 Q-10,60 0,80" fill="none" stroke="#F59E0B" stroke-width="3" stroke-dasharray="4,4"/>
+                        </g>
+
+                        <!-- Pathogen 2 (Approaching) -->
+                        <g transform="translate(100, 100) scale(0.7)">
+                            <circle cx="0" cy="0" r="25" fill="#B91C1C" stroke="#F87171" stroke-width="3"/>
+                            <line x1="0" y1="-25" x2="0" y2="-40" stroke="#F87171" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="0" y1="25" x2="0" y2="40" stroke="#F87171" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="-25" y1="0" x2="-40" y2="0" stroke="#F87171" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="25" y1="0" x2="40" y2="0" stroke="#F87171" stroke-width="4" stroke-linecap="round"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="evoluzioni" class="min-h-screen flex items-center pt-24 pb-12 scroll-mt-24">
+            <div class="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20 w-full">
+                <div class="flex-1 w-full max-w-lg lg:max-w-full animate-float custom-svg-shadow reveal-left" style="animation-delay: -2.5s;">
+                    <!-- SVG: Evolution / DNA Mutation Tree -->
+                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                        <defs>
+                            <linearGradient id="evoGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#10B981" />
+                                <stop offset="100%" stop-color="#38BDF8" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Phylogenetic Tree branches -->
+                        <path d="M50,200 L150,200 L200,120 L300,120" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
+                        <path d="M150,200 L200,280 L350,280" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
+                        <path d="M200,120 L250,50 L350,50" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
+                        
+                        <!-- DNA Strand flowing along a branch -->
+                        <g transform="translate(180, 280) rotate(-10)">
+                            <path d="M0,0 Q30,-30 60,0 T120,0 T180,0" fill="none" stroke="url(#evoGrad)" stroke-width="5" stroke-linecap="round"/>
+                            <path d="M0,0 Q30,30 60,0 T120,0 T180,0" fill="none" stroke="#0EA5E9" stroke-width="5" stroke-linecap="round"/>
+                            <line x1="30" y1="-15" x2="30" y2="15" stroke="white" stroke-width="2"/>
+                            <line x1="90" y1="-15" x2="90" y2="15" stroke="white" stroke-width="2"/>
+                            <line x1="150" y1="-15" x2="150" y2="15" stroke="white" stroke-width="2"/>
+                        </g>
+
+                        <!-- Mutation Highlights (Glowing Nodes) -->
+                        <circle cx="150" cy="200" r="8" fill="#10B981" stroke="#fff" stroke-width="2"/>
+                        <circle cx="200" cy="120" r="8" fill="#0EA5E9" stroke="#fff" stroke-width="2"/>
+                        <circle cx="200" cy="280" r="8" fill="#F59E0B" stroke="#fff" stroke-width="2">
+                            <animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="250" cy="50" r="8" fill="#EF4444" stroke="#fff" stroke-width="2"/>
+                        
+                        <!-- Floating nucleotides -->
+                        <polygon points="50,50 60,70 40,70" fill="#38BDF8" opacity="0.6"/>
+                        <rect x="320" y="150" width="15" height="15" fill="#10B981" opacity="0.6"/>
+                        <circle cx="80" cy="320" r="10" fill="#F59E0B" opacity="0.6"/>
+                    </svg>
+                </div>
+                <div class="flex-1 space-y-6 reveal-right">
+                    <h2 class="text-4xl md:text-6xl font-black text-white">Le <span class="text-gradient">Evoluzioni</span></h2>
+                    <div class="glass-panel p-8 rounded-3xl border-l-4 border-l-brand-green">
+                        <p class="text-lg text-slate-300 leading-relaxed mb-4">
+                            Il mondo microbico è in perenne cambiamento. Attraverso il sequenziamento genomico di ultima generazione, monitoriamo l'evoluzione batterica e virale in tempo reale.
+                        </p>
+                        <p class="text-lg text-slate-300 leading-relaxed">
+                            <strong>Biologia Predittiva:</strong> Ricostruiamo alberi filogenetici complessi e tracciamo le mutazioni a livello del DNA/RNA. Questo ci consente di prevedere l'emergenza di nuovi ceppi patogeni, l'adattamento ai cambiamenti climatici e l'evasione dai protocolli farmacologici prima che si trasformino in pandemie.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-white/10 bg-brand-dark/90 backdrop-blur-xl py-12 mt-10 relative z-10">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center items-center mb-6">
+                <svg class="w-10 h-10 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                <span class="ml-3 text-2xl font-black tracking-widest"><span class="text-brand-blue">ANIMAL</span><span class="text-brand-green">CULES</span></span>
+            </div>
+            <p class="text-slate-400 text-sm">
+                &copy; 2026 ANIMALCULES. Tutti i diritti riservati.<br>
+                Polo di Ricerca Microbiologica Avanzata.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dropdown Toggle Logic
+            const ndrBtn = document.getElementById('ndr-btn');
+            const dropdown = document.getElementById('dropdown-menu');
+            let hideTimeout;
+
+            ndrBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                dropdown.classList.toggle('dropdown-hidden');
+                dropdown.classList.toggle('dropdown-visible');
+            });
+
+            const dropdownContainer = ndrBtn.parentElement;
+            dropdownContainer.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+                dropdown.classList.remove('dropdown-hidden');
+                dropdown.classList.add('dropdown-visible');
+            });
+
+            dropdownContainer.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    dropdown.classList.add('dropdown-hidden');
+                    dropdown.classList.remove('dropdown-visible');
+                }, 200);
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!dropdownContainer.contains(e.target)) {
+                    dropdown.classList.add('dropdown-hidden');
+                    dropdown.classList.remove('dropdown-visible');
+                }
+            });
+
+            // Scroll Reveal Animation Observer
+            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+            
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: stop observing once revealed
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // Active Navigation Link on Scroll
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (scrollY >= (sectionTop - 250)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            
+            // Trigger scroll event once to set active state and reveals on load
+            window.dispatchEvent(new Event('scroll'));
+        });
+    </script>
+</body>
+</html>
