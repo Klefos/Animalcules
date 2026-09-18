@@ -39,23 +39,23 @@
         }
 
         .glass-card {
-            background: linear-gradient(145deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.9) 100%);
+            background: linear-gradient(145deg, rgba(30,41,59,0.7) 0%, rgba(15,23,42,0.8) 100%);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.15);
             transition: all 0.3s ease;
         }
 
         .glass-card:hover {
-            border-color: rgba(16, 185, 129, 0.6);
+            border-color: rgba(16, 185, 129, 0.5);
             transform: translateY(-5px);
             box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.3);
         }
 
-        /* Animazione entrata sezioni */
+        /* Animazione entrata sezioni (Reveal) */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
         .reveal.active {
             opacity: 1;
@@ -87,6 +87,7 @@
     <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
         <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-brand-blue rounded-full mix-blend-multiply filter blur-[128px] opacity-20"></div>
         <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-brand-green rounded-full mix-blend-multiply filter blur-[128px] opacity-20"></div>
+        <div class="absolute top-[40%] left-[30%] w-[30rem] h-[30rem] bg-indigo-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-10"></div>
     </div>
 
     <!-- Header Sticky -->
@@ -112,7 +113,7 @@
                                 <a href="ndr2026_game.html" class="block px-4 py-3 hover:bg-white/10 text-brand-green font-bold text-sm text-center transition-colors border-b border-white/5">
                                     Gioca
                                 </a>
-                                <a href="ndr2026_quiz.html" class="block px-4 py-3 hover:bg-white/10 text-brand-blue font-bold text-sm text-center transition-colors border-b border-white/5">
+                                <a href="quiz.html" class="block px-4 py-3 hover:bg-white/10 text-brand-blue font-bold text-sm text-center transition-colors border-b border-white/5">
                                     Quiz
                                 </a>
                                 <a href="#ndr2026" class="block px-4 py-3 hover:bg-white/10 text-slate-300 text-sm text-center transition-colors">
@@ -154,6 +155,67 @@
     <!-- Content Sections -->
     <main class="container mx-auto px-6 pb-24 space-y-32">
 
+        <!-- SEZIONE NdR 2026 -->
+        <section id="ndr2026" class="reveal scroll-mt-24">
+            <div class="glass-card rounded-3xl p-8 md:p-12 overflow-hidden relative">
+                <!-- SVG Background Decorativo -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-brand-blue/20 to-transparent rounded-bl-full pointer-events-none"></div>
+                
+                <div class="flex flex-col lg:flex-row items-center gap-12 relative z-10">
+                    <div class="flex-1 space-y-6">
+                        <div class="inline-block px-4 py-1.5 rounded-full bg-brand-blue/20 text-brand-blue text-sm font-bold tracking-widest uppercase border border-brand-blue/30">
+                            Evento Speciale
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-extrabold text-white">Notte dei Ricercatori <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-green">2026</span></h2>
+                        <p class="text-lg text-slate-300 leading-relaxed">
+                            Quest'anno il laboratorio <strong>ANIMALCULES</strong> apre le sue porte al pubblico per un'esperienza divulgativa senza precedenti. Scopri i segreti dei microrganismi che popolano il nostro mondo e il nostro corpo.
+                        </p>
+                        <p class="text-lg text-slate-300 leading-relaxed">
+                            Mettiti nei panni di un ricercatore: identifica i patogeni, studia le mutazioni virali e contribuisci virtualmente a sintetizzare nuove cure attraverso i nostri serious game educativi.
+                        </p>
+                        <div class="pt-4 flex gap-4">
+                             <a href="ndr2026_game.html" class="px-6 py-3 bg-brand-green/20 hover:bg-brand-green/30 text-brand-green border border-brand-green/50 rounded-xl font-bold transition-all flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                Inizia a Giocare
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex-1 flex justify-center w-full max-w-md mx-auto">
+                        <!-- SVG: Scienza Pubblica / Evento -->
+                        <svg viewBox="0 0 400 400" class="w-full h-auto filter drop-shadow-[0_0_20px_rgba(14,165,233,0.3)]">
+                            <defs>
+                                <linearGradient id="flaskGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#0ea5e9" />
+                                    <stop offset="100%" stop-color="#10b981" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Base Microscopio/Ampolla -->
+                            <path d="M160,80 L160,40 C160,28.954 168.954,20 180,20 L220,20 C231.046,20 240,28.954 240,40 L240,80 L320,220 C335,245 320,280 290,280 L110,280 C80,280 65,245 80,220 L160,80 Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.4)" stroke-width="4"/>
+                            <!-- Liquido Magico (Conoscenza) -->
+                            <path d="M110,230 L290,230 L310,265 C315,275 305,280 290,280 L110,280 C95,280 85,275 90,265 L110,230 Z" fill="url(#flaskGrad)"/>
+                            <!-- Atomo / Scintille che escono -->
+                            <circle cx="200" cy="150" r="40" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="10,5">
+                                <animateTransform attributeName="transform" type="rotate" from="0 200 150" to="360 200 150" dur="10s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="200" cy="150" r="40" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="10,5">
+                                <animateTransform attributeName="transform" type="rotate" from="360 200 150" to="0 200 150" dur="15s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="200" cy="150" r="10" fill="#fff"/>
+                            <!-- Bolle -->
+                            <circle cx="150" cy="250" r="8" fill="#fff" opacity="0.6"/>
+                            <circle cx="180" cy="260" r="12" fill="#fff" opacity="0.4"/>
+                            <circle cx="230" cy="245" r="6" fill="#fff" opacity="0.5"/>
+                            <circle cx="250" cy="265" r="10" fill="#fff" opacity="0.6"/>
+                            <!-- Simboli della scoperta -->
+                            <path d="M200,60 L200,10 M180,35 L220,35" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+                            <path d="M280,100 L320,80 M280,70 L300,110" stroke="#0ea5e9" stroke-width="4" stroke-linecap="round"/>
+                            <path d="M120,100 L80,80 M120,70 L100,110" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ANTIBIOTICI & TIMELINE -->
         <section id="antibiotici" class="reveal scroll-mt-24">
             <div class="flex items-center gap-4 mb-8">
@@ -166,7 +228,7 @@
             
             <div class="grid md:grid-cols-2 gap-12">
                 <!-- Descrizione -->
-                <div class="glass-card p-8 rounded-3xl">
+                <div class="glass-card p-8 rounded-3xl h-fit">
                     <p class="text-slate-300 leading-relaxed text-lg mb-6">
                         Gli antibiotici sono molecole in grado di uccidere i batteri o inibirne la crescita. Rivoluzionando la medicina moderna, hanno reso curabili malattie un tempo letali. Funzionano bersagliando strutture specifiche del batterio, come la parete cellulare o i meccanismi di sintesi delle proteine.
                     </p>
@@ -178,21 +240,24 @@
                 <!-- Timeline Antibiotici -->
                 <div class="glass p-8 rounded-3xl">
                     <h3 class="text-2xl font-bold mb-6 text-brand-green">La Storia delle Cure</h3>
-                    <div class="relative border-l-2 border-brand-green/30 ml-3">
-                        <div class="mb-8 ml-6 relative">
-                            <span class="absolute -left-[33px] w-4 h-4 rounded-full bg-brand-green ring-4 ring-slate-900 mt-1"></span>
+                    <div class="relative border-l-2 border-brand-green/30 ml-3 py-2">
+                        <!-- Nodo 1 -->
+                        <div class="mb-10 ml-8 relative">
+                            <span class="absolute -left-[41px] w-4 h-4 rounded-full bg-brand-green ring-4 ring-slate-900 mt-1.5"></span>
                             <h4 class="text-xl font-bold text-white">1928</h4>
-                            <p class="text-slate-400 mt-1">Alexander Fleming scopre accidentalmente la <strong>Penicillina</strong>, il primo vero antibiotico.</p>
+                            <p class="text-slate-400 mt-1">Alexander Fleming scopre accidentalmente la <strong>Penicillina</strong>, il primo vero antibiotico, osservando una muffa che distruggeva i batteri.</p>
                         </div>
-                        <div class="mb-8 ml-6 relative">
-                            <span class="absolute -left-[33px] w-4 h-4 rounded-full bg-brand-green ring-4 ring-slate-900 mt-1"></span>
-                            <h4 class="text-xl font-bold text-white">1940s-1960s</h4>
-                            <p class="text-slate-400 mt-1"><strong>L'età dell'oro.</strong> Vengono scoperte e prodotte le principali classi di antibiotici tutt'oggi in uso.</p>
+                        <!-- Nodo 2 -->
+                        <div class="mb-10 ml-8 relative">
+                            <span class="absolute -left-[41px] w-4 h-4 rounded-full bg-brand-green ring-4 ring-slate-900 mt-1.5"></span>
+                            <h4 class="text-xl font-bold text-white">1940s - 1960s</h4>
+                            <p class="text-slate-400 mt-1"><strong>L'età dell'oro.</strong> Vengono scoperte e prodotte le principali classi di antibiotici tutt'oggi in uso, salvando milioni di vite durante e dopo la guerra.</p>
                         </div>
-                        <div class="ml-6 relative">
-                            <span class="absolute -left-[33px] w-4 h-4 rounded-full bg-brand-green ring-4 ring-slate-900 mt-1"></span>
+                        <!-- Nodo 3 -->
+                        <div class="ml-8 relative">
+                            <span class="absolute -left-[41px] w-4 h-4 rounded-full bg-brand-green ring-4 ring-slate-900 mt-1.5"></span>
                             <h4 class="text-xl font-bold text-white">Oggi</h4>
-                            <p class="text-slate-400 mt-1">La scoperta di nuove molecole ha subito un drastico rallentamento. La ricerca punta a soluzioni alternative.</p>
+                            <p class="text-slate-400 mt-1">La scoperta di nuove molecole ha subito un drastico rallentamento (il "Discovery Void"). La ricerca globale cerca disperatamente soluzioni alternative.</p>
                         </div>
                     </div>
                 </div>
@@ -213,60 +278,63 @@
                 <!-- Timeline Resistenza -->
                 <div class="glass p-8 rounded-3xl order-2 md:order-1">
                     <h3 class="text-2xl font-bold mb-6 text-red-400">L'evoluzione della minaccia</h3>
-                    <div class="relative border-l-2 border-red-500/30 ml-3">
-                        <div class="mb-8 ml-6 relative">
-                            <span class="absolute -left-[33px] w-4 h-4 rounded-full bg-red-500 ring-4 ring-slate-900 mt-1"></span>
+                    <div class="relative border-l-2 border-red-500/30 ml-3 py-2">
+                        <!-- Nodo 1 -->
+                        <div class="mb-10 ml-8 relative">
+                            <span class="absolute -left-[41px] w-4 h-4 rounded-full bg-red-500 ring-4 ring-slate-900 mt-1.5"></span>
                             <h4 class="text-xl font-bold text-white">1940</h4>
-                            <p class="text-slate-400 mt-1">Viene identificata la prima <strong>penicillinasi</strong> (un enzima batterico che distrugge la penicillina) ancor prima dell'uso di massa del farmaco.</p>
+                            <p class="text-slate-400 mt-1">Viene identificata la prima <strong>penicillinasi</strong> (un enzima batterico che distrugge la penicillina) ancor prima dell'uso di massa del farmaco stesso.</p>
                         </div>
-                        <div class="mb-8 ml-6 relative">
-                            <span class="absolute -left-[33px] w-4 h-4 rounded-full bg-red-500 ring-4 ring-slate-900 mt-1"></span>
+                        <!-- Nodo 2 -->
+                        <div class="mb-10 ml-8 relative">
+                            <span class="absolute -left-[41px] w-4 h-4 rounded-full bg-red-500 ring-4 ring-slate-900 mt-1.5"></span>
                             <h4 class="text-xl font-bold text-white">Anni '90</h4>
-                            <p class="text-slate-400 mt-1">Emergono i "Super-batteri" multi-resistenti (MRSA) negli ospedali di tutto il mondo.</p>
+                            <p class="text-slate-400 mt-1">Emergono i "Super-batteri" multi-resistenti (come MRSA e VRSA) negli ospedali di tutto il mondo, eludendo quasi ogni cura conosciuta.</p>
                         </div>
-                        <div class="ml-6 relative">
-                            <span class="absolute -left-[33px] w-4 h-4 rounded-full bg-red-500 ring-4 ring-slate-900 mt-1"></span>
+                        <!-- Nodo 3 -->
+                        <div class="ml-8 relative">
+                            <span class="absolute -left-[41px] w-4 h-4 rounded-full bg-red-500 ring-4 ring-slate-900 mt-1.5"></span>
                             <h4 class="text-xl font-bold text-white">Previsioni 2050</h4>
-                            <p class="text-slate-400 mt-1">Se non si inverte la tendenza, la resistenza causerà più vittime del cancro a livello globale.</p>
+                            <p class="text-slate-400 mt-1">Se non si inverte la tendenza, si stima che le infezioni resistenti causeranno fino a 10 milioni di vittime all'anno, superando il cancro.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Descrizione -->
-                <div class="glass-card p-8 rounded-3xl order-1 md:order-2">
+                <div class="glass-card p-8 rounded-3xl order-1 md:order-2 h-fit">
                     <p class="text-slate-300 leading-relaxed text-lg mb-6">
-                        L'antibiotico-resistenza (AMR) è un fenomeno naturale di evoluzione: i batteri mutano e sviluppano meccanismi per sopravvivere ai farmaci progettati per ucciderli.
+                        L'antibiotico-resistenza (AMR) è un fenomeno naturale di evoluzione: i batteri mutano e sviluppano meccanismi per sopravvivere ai farmaci progettati per ucciderli, come scudi molecolari o pompe di espulsione.
                     </p>
                     <p class="text-slate-300 leading-relaxed text-lg mb-6">
-                        L'uso eccessivo e scorretto degli antibiotici in medicina umana e negli allevamenti ha accelerato drasticamente questo processo. I batteri resistenti sopravvivono e si moltiplicano, trasmettendo i "geni della resistenza" anche ad altre specie batteriche.
+                        L'uso eccessivo e scorretto degli antibiotici in medicina umana, veterinaria e negli allevamenti ha accelerato drasticamente questo processo. I batteri resistenti sopravvivono, si moltiplicano e trasferiscono i loro "geni corazzati" ad altri batteri.
                     </p>
                     <div class="p-4 bg-red-500/10 border border-red-500/20 rounded-xl mt-4">
-                        <span class="font-bold text-red-400">Allarme Globale:</span> Oggi è considerata dall'OMS una delle 10 principali minacce per la salute pubblica mondiale.
+                        <span class="font-bold text-red-400">Allarme Globale:</span> Oggi è considerata dall'Organizzazione Mondiale della Sanità (OMS) una delle 10 principali minacce per la salute pubblica.
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- PATOGENESI, CURE, EVOLUZIONI (Griglia a 3) -->
-        <section class="grid md:grid-cols-3 gap-8 reveal">
+        <section class="grid lg:grid-cols-3 gap-8 reveal">
             <!-- Patogenesi -->
             <div class="glass-card p-8 rounded-3xl">
                 <div class="w-12 h-12 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center mb-6">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
                 <h3 class="text-2xl font-bold text-white mb-4">Patogenesi</h3>
-                <p class="text-slate-400">
-                    Il processo attraverso cui un microrganismo causa una malattia. Include l'ingresso nell'ospite, l'evasione del sistema immunitario, la moltiplicazione e il danneggiamento dei tessuti tramite tossine o replicazione intracellulare.
+                <p class="text-slate-400 leading-relaxed">
+                    Il processo attraverso cui un microrganismo causa una malattia. Include l'ingresso nell'ospite, l'evasione del sistema immunitario, la moltiplicazione e il danneggiamento dei tessuti tramite tossine.
                 </p>
             </div>
             <!-- Cure -->
-            <div class="glass-card p-8 rounded-3xl">
+            <div class="glass-card p-8 rounded-3xl border-brand-green/30">
                 <div class="w-12 h-12 rounded-xl bg-brand-green/20 text-brand-green flex items-center justify-center mb-6">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                 </div>
                 <h3 class="text-2xl font-bold text-white mb-4">Cure Innovative</h3>
-                <p class="text-slate-400">
-                    Oltre agli antibiotici, il laboratorio ANIMALCULES studia nuove frontiere: batteriofagi (virus che uccidono solo i batteri cattivi), anticorpi monoclonali, peptidi antimicrobici e terapie basate sul riequilibrio del microbioma.
+                <p class="text-slate-400 leading-relaxed">
+                    Oltre agli antibiotici, ANIMALCULES studia nuove frontiere: batteriofagi (virus che uccidono i batteri cattivi), anticorpi monoclonali e terapie basate sul riequilibrio del microbioma sano.
                 </p>
             </div>
             <!-- Evoluzioni -->
@@ -275,8 +343,8 @@
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                 </div>
                 <h3 class="text-2xl font-bold text-white mb-4">Evoluzioni</h3>
-                <p class="text-slate-400">
-                    Il mondo microscopico non è statico. Osserviamo la genetica batterica e virale per tracciare le mutazioni in tempo reale. Comprendere l'evoluzione è la chiave per prevenire la prossima pandemia biologica.
+                <p class="text-slate-400 leading-relaxed">
+                    Il mondo microscopico non è statico. Osserviamo la genetica batterica per tracciare mutazioni. Comprendere l'evoluzione è la chiave per prevenire la prossima emergenza biologica.
                 </p>
             </div>
         </section>
@@ -294,7 +362,7 @@
                         <h2 class="text-3xl font-bold text-white">Virus</h2>
                     </div>
                     <p class="text-slate-300 leading-relaxed text-lg mb-6">
-                        I virus sono entità biologiche elementari: non sono propriamente "vivi". Sono costituiti da materiale genetico (DNA o RNA) avvolto da un guscio proteico. Per riprodursi, devono obbligatoriamente infettare una cellula ospite (umana, animale, vegetale o anche batterica), dirottandone i macchinari interni.
+                        I virus sono entità biologiche elementari: non sono propriamente "vivi". Sono costituiti da materiale genetico (DNA o RNA) avvolto da un guscio proteico. Per riprodursi, devono obbligatoriamente infettare una cellula ospite, dirottandone i macchinari interni.
                     </p>
                 </div>
             </div>
@@ -310,7 +378,7 @@
                         <h2 class="text-3xl font-bold text-white">Protozoi</h2>
                     </div>
                     <p class="text-slate-300 leading-relaxed text-lg mb-6">
-                        A differenza dei batteri, i protozoi sono organismi unicellulari complessi (eucarioti), dotati di un nucleo ben definito. Vivono principalmente in ambienti acquatici o nel suolo. Alcuni sono innocui o addirittura benefici per gli ecosistemi, mentre altri sono temibili patogeni per l'uomo, responsabili di malattie come la malaria.
+                        A differenza dei batteri, i protozoi sono organismi unicellulari complessi (eucarioti), dotati di un nucleo ben definito. Vivono principalmente in ambienti acquatici o nel suolo. Alcuni sono innocui, mentre altri sono temibili patogeni, responsabili di malattie come la malaria.
                     </p>
                 </div>
             </div>
@@ -320,34 +388,52 @@
     <!-- Footer -->
     <footer class="border-t border-white/10 glass mt-12">
         <div class="container mx-auto px-6 py-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center gap-2 mb-4 md:mb-0">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-2">
                     <svg class="w-6 h-6 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                     <span class="font-bold text-lg tracking-wider text-slate-300">ANIMALCULES</span>
                 </div>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 text-sm text-center">
                     &copy; 2026 Laboratorio di Ricerca Microbiologica. Tutti i diritti riservati.
                 </p>
             </div>
         </div>
     </footer>
 
-    <!-- Script per le animazioni allo scroll -->
+    <!-- Script per le animazioni allo scroll (Intersection Observer) -->
     <script>
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
-            }
-        }
-        window.addEventListener("scroll", reveal);
-        // Trigger iniziale al caricamento
-        reveal();
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Ferma l'osservazione dopo che è apparso
+                    }
+                });
+            }, revealOptions);
+
+            reveals.forEach(reveal => {
+                revealOnScroll.observe(reveal);
+            });
+            
+            // Attiva immediatamente le sezioni già visibili
+            setTimeout(() => {
+                reveals.forEach(reveal => {
+                    if(reveal.getBoundingClientRect().top < window.innerHeight) {
+                        reveal.classList.add('active');
+                    }
+                });
+            }, 100);
+        });
     </script>
 </body>
 </html>
