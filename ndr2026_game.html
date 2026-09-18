@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIMALCULES - Il Sentiero Incantato</title>
+    
+    <!-- Fonts giocosi e fiabeschi -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'magic': ['"Fredoka One"', 'cursive'],
+                        'body': ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        enchanted: {
+                            bg: '#1a0b2e',
+                            path: '#21cf8d',
+                            magic: '#d81159',
+                            glow: '#0EA5E9',
+                            monster1: '#ff6b6b',
+                            monster2: '#4ecdc4',
+                            monster3: '#ffe66d',
+                            monster4: '#9d4edd',
+                            boss: '#ff006e'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'float-delayed': 'float 3.5s ease-in-out infinite 1s',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                        'pulse-glow': 'pulseGlow 2s infinite',
+                        'poof': 'poof 0.6s ease-out forwards',
+                        'pop-in': 'popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-15px) rotate(3deg)' },
+                        },
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-4px, 0, 0) rotate(-5deg)' },
+                            '20%, 80%': { transform: 'translate3d(8px, 0, 0) rotate(5deg)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-12px, 0, 0) rotate(-5deg)' },
+                            '40%, 60%': { transform: 'translate3d(12px, 0, 0) rotate(5deg)' }
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { filter: 'drop-shadow(0 0 10px rgba(33, 207, 141, 0.5))' },
+                            '50%': { filter: 'drop-shadow(0 0 25px rgba(33, 207, 141, 0.9))' }
+                        },
+                        poof: {
+                            '0%': { transform: 'scale(1)', filter: 'brightness(1)' },
+                            '40%': { transform: 'scale(1.4)', filter: 'brightness(2)' },
+                            '100%': { transform: 'scale(0) rotate(180deg)', opacity: '0' }
+                        },
+                        popIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.5)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #1a0b2e;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(216, 17, 89, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.15) 0%, transparent 50%);
+            color: white;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .glass-panel {
+            background: rgba(40, 20, 60, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255,255,255,0.05);
+        }
+
+        /* Bottone Magico */
+        .magic-btn {
+            background: linear-gradient(135deg, #21cf8d, #0EA5E9);
+            box-shadow: 0 6px 0 #107e54, 0 15px 20px rgba(33, 207, 141, 0.4);
+            transition: all 0.1s;
+        }
+        .magic-btn:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 #107e54, 0 10px 15px rgba(33, 207, 141, 0.4);
+        }
+        .magic-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 #107e54, 0 5px 10px rgba(33, 207, 141, 0.4);
+        }
+
+        /* Opzioni del Quiz */
+        .quiz-option {
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .quiz-option:hover {
+            transform: scale(1.02) translateX(10px);
+            background: rgba(255,255,255,0.15);
+            border-color: #21cf8d;
+        }
+
+        /* Disabilita interazione per i mostri bloccati */
+        .monster-locked {
+            filter: grayscale(100%) opacity(0.5) blur(2px);
+            pointer-events: none;
+        }
+
+        /* Indicatore Sentiero SVG */
+        .path-line {
+            stroke-dasharray: 20;
+            animation: dash 20s linear infinite;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: -1000; }
+        }
+
+        /* Sparkles per la vittoria */
+        .sparkle {
+            position: absolute;
+            width: 10px; height: 10px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="font-body antialiased min-h-screen relative selection:bg-enchanted-magic selection:text-white">
+
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute top-20 left-10 w-4 h-4 bg-yellow-300 rounded-full blur-[2px] animate-float opacity-50"></div>
+        <div class="absolute top-1/3 right-20 w-6 h-6 bg-enchanted-path rounded-full blur-[3px] animate-float-delayed opacity-40"></div>
+        <div class="absolute bottom-1/4 left-1/4 w-3 h-3 bg-enchanted-magic rounded-full blur-[1px] animate-float opacity-60"></div>
+        <div class="absolute top-2/3 right-1/3 w-8 h-8 bg-enchanted-glow rounded-full blur-[4px] animate-float-delayed opacity-30"></div>
+    </div>
+
+    <div id="screen-start" class="fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-500">
+        <div class="glass-panel rounded-[2rem] p-8 md:p-12 max-w-2xl text-center relative overflow-hidden animate-pop-in">
+            <!-- Decori interni -->
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-enchanted-magic/20 rounded-full blur-2xl"></div>
+            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-enchanted-path/20 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10">
+                <span class="px-4 py-2 rounded-full bg-white/10 text-enchanted-path font-bold tracking-widest text-xs uppercase mb-6 inline-block border border-enchanted-path/30">
+                    Animalcules - NdR 2026
+                </span>
+                <h1 class="font-magic text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-enchanted-path via-white to-enchanted-glow drop-shadow-lg">
+                    Il Micro-Regno<br>Incantato
+                </h1>
+                <p class="text-lg md:text-xl text-blue-100 mb-8 leading-relaxed font-semibold">
+                    Oh no! I mostriciattoli patogeni hanno invaso la Foresta Cellulare! <br>
+                    Usa la tua conoscenza scientifica per rispondere ai loro indovinelli e liberare il sentiero.
+                </p>
+                <button onclick="startGame()" class="magic-btn font-magic text-2xl text-white px-10 py-4 rounded-2xl w-full md:w-auto inline-flex items-center justify-center gap-3">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Inizia l'Avventura!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-map" class="hidden relative w-full max-w-4xl mx-auto min-h-[150vh] py-20 px-4 opacity-0 transition-opacity duration-500">
+        
+        <!-- Intestazione Mappa -->
+        <div class="sticky top-4 z-40 glass-panel rounded-2xl p-4 flex justify-between items-center mb-10 shadow-2xl">
+            <div class="font-magic text-xl text-enchanted-path flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                Mappa
+            </div>
+            <div class="text-white font-bold bg-white/10 px-4 py-1 rounded-full">
+                Mostri sconfitti: <span id="score-display" class="text-enchanted-path">0/5</span>
+            </div>
+        </div>
+
+        <!-- Linea del Sentiero SVG che scorre dietro i mostri -->
+        <div class="absolute inset-0 z-0 flex justify-center pointer-events-none w-full h-full">
+            <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 1000">
+                <path d="M50,50 C20,150 80,250 50,350 C20,450 80,550 50,650 C20,750 80,850 50,950" 
+                      fill="none" stroke="rgba(33, 207, 141, 0.3)" stroke-width="4" stroke-linecap="round" class="path-line"/>
+                <path d="M50,50 C20,150 80,250 50,350 C20,450 80,550 50,650 C20,750 80,850 50,950" 
+                      fill="none" stroke="#21cf8d" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 15" class="path-line"/>
+            </svg>
+        </div>
+
+        <!-- Contenitore Mostri lungo il percorso -->
+        <div id="monsters-container" class="relative z-10 flex flex-col items-center gap-[15vh] w-full mt-10">
+            <!-- I mostri verranno generati dinamicamente dal JS -->
+        </div>
+
+    </div>
+
+    <div id="question-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-enchanted-bg/90 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="glass-panel rounded-3xl p-6 md:p-10 w-full max-w-3xl relative transform scale-95 transition-transform duration-300 shadow-[0_0_50px_rgba(33,207,141,0.2)]">
+            
+            <!-- Avatar del mostro corrente -->
+            <div id="modal-monster-avatar" class="absolute -top-16 left-1/2 transform -translate-x-1/2 w-32 h-32 animate-bounce-slow">
+                <!-- Inserito da JS -->
+            </div>
+
+            <div class="mt-12 text-center">
+                <h3 id="monster-name" class="font-magic text-2xl text-enchanted-magic mb-2 uppercase tracking-wider">Nome Mostro</h3>
+                <p id="question-text" class="text-xl md:text-3xl font-bold mb-8 text-white leading-tight font-body">
+                    Caricamento indovinello...
+                </p>
+                
+                <div id="answers-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Bottoni generati da JS -->
+                </div>
+            </div>
+
+            <!-- Messaggio di Errore -->
+            <div id="error-msg" class="absolute -bottom-16 left-0 w-full text-center opacity-0 transition-opacity">
+                <span class="bg-red-500 text-white font-bold px-6 py-2 rounded-full shadow-lg border-2 border-red-300 animate-pulse">
+                    Oh no! Risposta errata. Riprova!
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-win" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-enchanted-bg/95 backdrop-blur-md opacity-0 transition-opacity duration-1000">
+        <div class="text-center relative">
+            <div class="absolute inset-0 bg-[radial-gradient(circle,rgba(33,207,141,0.4)_0%,transparent_70%)] animate-pulse-glow z-0"></div>
+            
+            <div class="relative z-10">
+                <!-- SVG Trofeo/Erlenmeyer Magico -->
+                <svg class="w-48 h-48 mx-auto mb-6 drop-shadow-[0_0_30px_#21cf8d] animate-float" viewBox="0 0 24 24" fill="none" stroke="#21cf8d" stroke-width="1.5">
+                    <path d="M9 3h6v4l4 10v4H5v-4l4-10V3z" fill="rgba(33,207,141,0.2)"/>
+                    <path d="M5 17h14M9 7h6" stroke-linecap="round"/>
+                    <circle cx="12" cy="14" r="1.5" fill="#fff" stroke="none"/>
+                    <circle cx="10" cy="17" r="1" fill="#fff" stroke="none"/>
+                    <circle cx="14" cy="18" r="1.5" fill="#fff" stroke="none"/>
+                    <!-- Scintille -->
+                    <path d="M12 -2v4M12 22v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3" stroke="#fff" stroke-width="1.5" class="animate-pulse"/>
+                </svg>
+
+                <h1 class="font-magic text-6xl md:text-8xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-enchanted-path to-white drop-shadow-lg">
+                    Vittoria!
+                </h1>
+                <p class="text-2xl text-blue-100 mb-10 font-bold max-w-xl mx-auto">
+                    Hai risposto a tutti gli indovinelli scientifici e liberato il Micro-Regno dai patogeni dispettosi! Sei un vero Ricercatore ANIMALCULES!
+                </p>
+                
+                <button onclick="location.reload()" class="magic-btn font-magic text-2xl text-white px-10 py-4 rounded-2xl">
+                    Gioca di Nuovo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dati del gioco: Livelli / Mostri
+        const gameData = [
+            {
+                id: 0,
+                type: 'batterio',
+                name: 'Batterio Batuffolo',
+                color: '#ff6b6b', // red-ish
+                svg: `<circle cx="50" cy="50" r="40" fill="#ff6b6b"/><rect x="25" y="30" width="50" height="20" rx="10" fill="#fff"/><circle cx="35" cy="40" r="3" fill="#000"/><circle cx="65" cy="40" r="3" fill="#000"/><path d="M 40 70 Q 50 60 60 70" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M 10 50 Q -10 60 10 70 M 90 50 Q 110 60 90 70" stroke="#ff6b6b" stroke-width="6" fill="none"/>`,
+                question: "Cucù! Sono un batterio cicciottello e dispettoso. Cosa usano gli umani in laboratorio per sconfiggere noi batteri senza fare del male alle proprie cellule?",
+                options: ["Acqua e zucchero magico", "Gli antibiotici", "Il solletico fortissimo", "Le vitamine gommose"],
+                correct: 1
+            },
+            {
+                id: 1,
+                type: 'virus',
+                name: 'Virus Spinoso',
+                color: '#4ecdc4', // teal
+                svg: `<circle cx="50" cy="50" r="35" fill="#4ecdc4"/><polygon points="50,0 45,15 55,15" fill="#4ecdc4"/><polygon points="50,100 45,85 55,85" fill="#4ecdc4"/><polygon points="0,50 15,45 15,55" fill="#4ecdc4"/><polygon points="100,50 85,45 85,55" fill="#4ecdc4"/><polygon points="15,15 25,25 30,20" fill="#4ecdc4"/><polygon points="85,85 75,75 70,80" fill="#4ecdc4"/><circle cx="40" cy="45" r="5" fill="#fff"/><circle cx="60" cy="45" r="5" fill="#fff"/><circle cx="40" cy="45" r="2" fill="#000"/><circle cx="60" cy="45" r="2" fill="#000"/><path d="M 45 65 L 50 60 L 55 65" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+                question: "Ssst! Sono un virus ninja, piccolo ma letale! Di cosa ho ASSOLUTAMENTE bisogno per moltiplicarmi e creare altri piccoli ninja come me?",
+                options: ["Entrare in una cellula ospite", "Mangiare tanta cioccolata", "Stare al sole per 3 ore", "Crescere in un lago"],
+                correct: 0
+            },
+            {
+                id: 2,
+                type: 'protozoo',
+                name: 'Proto Blob',
+                color: '#ffe66d', // yellow
+                svg: `<path d="M 50 10 C 80 10 90 40 80 70 C 70 100 30 90 20 70 C 10 50 20 10 50 10 Z" fill="#ffe66d"/><circle cx="40" cy="40" r="8" fill="#fff"/><circle cx="60" cy="50" r="10" fill="#fff"/><circle cx="40" cy="40" r="3" fill="#000"/><circle cx="60" cy="50" r="4" fill="#000"/><path d="M 45 70 Q 50 75 55 65" stroke="#d4c042" stroke-width="4" fill="none" stroke-linecap="round"/>`,
+                question: "Glu glu! Sono un protozoo gigante e ballonzolante. Come mi classificano i cervelloni di ANIMALCULES?",
+                options: ["Un pezzetto di DNA scappato", "Un insetto spaziale", "Un organismo eucariote unicellulare", "Un minuscolo fungo velenoso"],
+                correct: 2
+            },
+            {
+                id: 3,
+                type: 'mutante',
+                name: 'Batterio Corazzato',
+                color: '#9d4edd', // purple
+                svg: `<rect x="20" y="20" width="60" height="60" rx="30" fill="#9d4edd"/><path d="M 20 20 L 80 20 L 80 40 C 80 60 50 80 50 80 C 50 80 20 60 20 40 Z" fill="rgba(255,255,255,0.3)"/><circle cx="35" cy="40" r="4" fill="#fff"/><circle cx="65" cy="40" r="4" fill="#fff"/><circle cx="35" cy="40" r="1.5" fill="#000"/><circle cx="65" cy="40" r="1.5" fill="#000"/><path d="M 30 30 L 40 35 M 70 30 L 60 35" stroke="#fff" stroke-width="3" stroke-linecap="round"/>`,
+                question: "Mwahaha! Nessun vecchio antibiotico può scalfirmi ora! Come ho fatto a sviluppare questa 'antibiotico-resistenza'?",
+                options: ["Ho comprato un'armatura", "Attraverso mutazioni e selezione naturale", "Bevendo molta acqua frizzante", "Nascondendomi sotto le foglie"],
+                correct: 1
+            },
+            {
+                id: 4,
+                type: 'boss',
+                name: 'Mega Fago',
+                color: '#ff006e', // pink/magenta
+                svg: `<polygon points="50,10 70,30 70,60 50,80 30,60 30,30" fill="#ff006e"/><rect x="45" y="80" width="10" height="20" fill="#c10053"/><path d="M 45 100 L 20 120 M 55 100 L 80 120 M 50 100 L 50 120" stroke="#ff006e" stroke-width="4" stroke-linecap="round"/><circle cx="40" cy="40" r="6" fill="#fff"/><circle cx="60" cy="40" r="6" fill="#fff"/><path d="M 40 60 L 60 60" stroke="#fff" stroke-width="4" stroke-linecap="round"/>`,
+                question: "ROAR! Sono l'ultima sfida! In laboratorio, i ricercatori usano la 'Terapia Fagica' contro i batteri cattivi come me. Ma cos'è un Fago?",
+                options: ["Un raggio laser verde", "Un virus buono che mangia i batteri", "Un fungo curativo", "Una pianta medicinale"],
+                correct: 1
+            }
+        ];
+
+        let currentLevel = 0;
+
+        function initGame() {
+            const container = document.getElementById('monsters-container');
+            container.innerHTML = '';
+
+            gameData.forEach((monster, index) => {
+                // Alterna posizione sinistra/destra
+                const alignClass = index % 2 === 0 ? 'mr-auto md:ml-10' : 'ml-auto md:mr-10';
+                const isLocked = index > 0 ? 'monster-locked' : 'animate-pulse-glow cursor-pointer hover:scale-110';
+                
+                const monsterEl = document.createElement('div');
+                monsterEl.id = `monster-${index}`;
+                monsterEl.className = `w-40 h-40 md:w-56 md:h-56 relative group transition-all duration-500 ${alignClass} ${isLocked}`;
+                monsterEl.onclick = () => {
+                    if (index === currentLevel) openQuestion(index);
+                };
+
+                monsterEl.innerHTML = `
+                    <!-- SVG Mostro -->
+                    <div class="w-full h-full animate-float" style="animation-delay: ${index * 0.2}s">
+                        <svg viewBox="-10 -10 120 140" width="100%" height="100%" style="filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));">
+                            ${monster.svg}
+                        </svg>
+                    </div>
+                    <!-- Etichetta Nome -->
+                    <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                        ${monster.name}
+                    </div>
+                `;
+                container.appendChild(monsterEl);
+            });
+        }
+
+        // START
+        function startGame() {
+            document.getElementById('screen-start').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('screen-start').classList.add('hidden');
+                
+                const mapScreen = document.getElementById('screen-map');
+                mapScreen.classList.remove('hidden');
+                initGame();
+                
+                // Trigger reflow
+                void mapScreen.offsetWidth;
+                mapScreen.style.opacity = '1';
+                
+                // Scroll top
+                window.scrollTo(0, 0);
+            }, 500);
+        }
+
+        const modal = document.getElementById('question-modal');
+        const modalContent = modal.querySelector('.glass-panel');
+
+        function openQuestion(index) {
+            const monster = gameData[index];
+            
+            // Popola modale
+            document.getElementById('monster-name').innerText = monster.name;
+            document.getElementById('monster-name').style.color = monster.color;
+            document.getElementById('question-text').innerText = monster.question;
+            
+            // Avatar
+            document.getElementById('modal-monster-avatar').innerHTML = `
+                <svg viewBox="-10 -10 120 140" width="100%" height="100%" style="filter: drop-shadow(0 0 20px ${monster.color});">
+                    ${monster.svg}
+                </svg>`;
+
+            // Risposte
+            const answersContainer = document.getElementById('answers-container');
+            answersContainer.innerHTML = '';
+            
+            monster.options.forEach((optText, optIndex) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option bg-white/5 border border-white/20 rounded-xl p-4 text-left text-white font-bold text-lg md:text-xl relative overflow-hidden group';
+                btn.innerHTML = `
+                    <span class="relative z-10">${optText}</span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-enchanted-path to-enchanted-glow opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                `;
+                btn.onclick = () => checkAnswer(optIndex, monster.correct, btn);
+                answersContainer.appendChild(btn);
+            });
+
+            // Mostra modale
+            modal.classList.remove('hidden');
+            document.getElementById('error-msg').style.opacity = '0';
+            
+            // Animazione entrata
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modalContent.style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        function checkAnswer(selectedIndex, correctIndex, btnElement) {
+            if (selectedIndex === correctIndex) {
+                // Giusto!
+                btnElement.classList.add('bg-enchanted-path', 'border-white');
+                
+                // Ritarda per mostrare il verde
+                setTimeout(() => {
+                    closeModalAndDefeatMonster();
+                }, 800);
+            } else {
+                // Sbagliato
+                btnElement.classList.add('bg-red-500/50', 'border-red-500');
+                modalContent.classList.add('animate-shake');
+                
+                document.getElementById('error-msg').style.opacity = '1';
+
+                setTimeout(() => {
+                    modalContent.classList.remove('animate-shake');
+                    btnElement.classList.remove('bg-red-500/50', 'border-red-500');
+                }, 500);
+                
+                setTimeout(() => {
+                     document.getElementById('error-msg').style.opacity = '0';
+                }, 2000);
+            }
+        }
+
+        function closeModalAndDefeatMonster() {
+            // Nascondi modale
+            modal.style.opacity = '0';
+            modalContent.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                
+                // Animazione poof sul mostro
+                const monsterEl = document.getElementById(`monster-${currentLevel}`);
+                monsterEl.classList.remove('animate-pulse-glow', 'hover:scale-110');
+                monsterEl.classList.add('animate-poof');
+                
+                // Crea scintille
+                createSparkles(monsterEl);
+
+                setTimeout(() => {
+                    monsterEl.style.visibility = 'hidden';
+                    advanceLevel();
+                }, 600); // durata poof
+                
+            }, 300);
+        }
+
+        function createSparkles(parentEl) {
+            for(let i=0; i<8; i++) {
+                const sp = document.createElement('div');
+                sp.className = 'sparkle absolute left-1/2 top-1/2 bg-yellow-300';
+                const angle = (i / 8) * Math.PI * 2;
+                const distance = 50 + Math.random() * 50;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                sp.style.transition = 'all 0.6s ease-out';
+                parentEl.appendChild(sp);
+                
+                // Ritardo minimo per far scattare la transizione
+                setTimeout(() => {
+                    sp.style.opacity = '1';
+                    sp.style.transform = `translate(-50%, -50%) translate(${tx}px, ${ty}px) scale(0)`;
+                }, 10);
+            }
+        }
+
+        function advanceLevel() {
+            currentLevel++;
+            document.getElementById('score-display').innerText = `${currentLevel}/5`;
+
+            if (currentLevel >= gameData.length) {
+                // VITTORIA
+                setTimeout(showWinScreen, 500);
+            } else {
+                // Sblocca prossimo
+                const nextMonster = document.getElementById(`monster-${currentLevel}`);
+                nextMonster.classList.remove('monster-locked');
+                nextMonster.classList.add('animate-pulse-glow', 'cursor-pointer', 'hover:scale-110');
+                
+                // Scroll verso il prossimo
+                nextMonster.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function showWinScreen() {
+            document.getElementById('screen-map').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('screen-map').classList.add('hidden');
+                
+                const winScreen = document.getElementById('screen-win');
+                winScreen.classList.remove('hidden');
+                
+                // Crea coriandoli SVG magici
+                for(let i=0; i<30; i++) {
+                    createConfetti(winScreen);
+                }
+                
+                setTimeout(() => {
+                    winScreen.style.opacity = '1';
+                }, 100);
+            }, 500);
+        }
+
+        function createConfetti(container) {
+            const colors = ['#21cf8d', '#d81159', '#0EA5E9', '#ffe66d'];
+            const conf = document.createElement('div');
+            conf.style.position = 'absolute';
+            conf.style.width = '10px';
+            conf.style.height = '20px';
+            conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            conf.style.left = Math.random() * 100 + 'vw';
+            conf.style.top = '-20px';
+            conf.style.opacity = Math.random();
+            conf.style.transform = `rotate(${Math.random() * 360}deg)`;
+            conf.style.zIndex = '0';
+            
+            // Animazione caduta personalizzata con JS per semplicità
+            const duration = 3000 + Math.random() * 3000;
+            conf.animate([
+                { transform: `translate3d(0,0,0) rotate(0deg)`, opacity: 1 },
+                { transform: `translate3d(${Math.random()*200 - 100}px, 100vh, 0) rotate(${720 + Math.random()*360}deg)`, opacity: 0 }
+            ], {
+                duration: duration,
+                easing: 'linear',
+                iterations: Infinity
+            });
+            
+            container.appendChild(conf);
+        }
+    </script>
+</body>
+</html>
