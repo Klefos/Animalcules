@@ -208,18 +208,14 @@
     <div id="screen-story" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 transition-opacity duration-500">
         <div class="glass-panel rounded-[2rem] p-8 md:p-12 w-full max-w-5xl h-[90vh] flex flex-col relative overflow-hidden animate-pop-in">
             
-            <!-- TITOLO CON GRADIENTE ROSA -> VIOLA/MAGENTA -> ARANCIONE -->
             <h1 class="font-magic text-4xl md:text-5xl mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-500 to-orange-400 drop-shadow-lg shrink-0">
                 Il Prologo del Micro-Regno
             </h1>
             
-            <!-- Contenitore del testo con scroll -->
             <div class="overflow-y-auto custom-scrollbar flex-grow pr-4 space-y-6 text-lg md:text-xl text-slate-200 leading-relaxed font-semibold">
-                
                 <p>
                     Sapevate che il nostro mondo è pieno di minuscole creature invisibili agli occhi? Si chiamano <span class="text-white font-bold">batteri</span>! Molti di loro sono nostri preziosi amici e ci aiutano a digerire, ma alcuni sono patogeni dispettosi che si divertono a farci ammalare.
                 </p>
-
                 <p>
                     Per fortuna, quasi 100 anni fa, un geniale scienziato di nome <span class="text-white font-bold">Alexander Fleming</span> scoprì per caso una magia potentissima. Nel suo laboratorio notò che un fungo produceva una sostanza speciale, capace di sconfiggere i batteri cattivi che vi si avvicinavano. Era nata la <span class="text-enchanted-path font-bold text-2xl">Penicillina</span>, il primo antibiotico naturale della storia!
                 </p>
@@ -259,7 +255,6 @@
                 <p class="text-center text-enchanted-glow font-bold mt-12 text-2xl">
                     Leggi attentamente queste pergamene... <br>Tutte le risposte della tua avventura si nascondono qui dentro!
                 </p>
-
             </div>
 
             <div class="mt-8 text-center shrink-0">
@@ -275,7 +270,6 @@
     <div id="screen-start" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-500 overflow-y-auto">
         <div class="glass-panel rounded-[2rem] p-8 md:p-12 w-full max-w-4xl text-center relative overflow-hidden my-8 transform scale-95 transition-transform duration-500" id="start-panel">
             
-            <!-- TITOLO CON GRADIENTE ROSA -> VIOLA/MAGENTA -> ARANCIONE -->
             <h1 class="font-magic text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-500 to-orange-400 drop-shadow-lg leading-tight">
                 Il Micro-Regno<br>Incantato
             </h1>
@@ -305,7 +299,6 @@
 
     <!-- MAP SCREEN -->
     <div id="screen-map" class="hidden relative w-full max-w-5xl mx-auto py-10 px-4 opacity-0 transition-opacity duration-500 min-h-screen">
-        <!-- Header -->
         <div class="sticky top-4 z-40 glass-panel rounded-2xl p-4 md:p-6 flex justify-between items-center mb-12 shadow-2xl">
             <div class="font-magic text-xl md:text-2xl text-enchanted-path flex items-center gap-2">
                 <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
@@ -317,13 +310,11 @@
         </div>
 
         <div id="game-area" class="relative w-full pb-40">
-            <!-- SVG Sentiero -->
             <svg id="svg-layer" class="absolute top-0 left-0 w-full h-full pointer-events-none z-0" preserveAspectRatio="none">
                 <path id="dynamic-path-glow" fill="none" stroke="rgba(33, 207, 141, 0.2)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
                 <path id="dynamic-path" fill="none" stroke="#21cf8d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="path-line"/>
             </svg>
 
-            <!-- Pedina -->
             <div id="player-pawn" class="w-16 h-16 hidden">
                 <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_5px_10px_rgba(0,0,0,0.5)] animate-bounce-slow">
                     <rect x="25" y="10" width="50" height="80" rx="25" fill="#0EA5E9"/>
@@ -335,26 +326,33 @@
                 </svg>
             </div>
 
-            <!-- Nodi Mostri -->
             <div id="monsters-container" class="relative z-10 flex flex-col w-full gap-[15vh]"></div>
         </div>
     </div>
 
-    <!-- QUESTION MODAL (Centrato e senza scrollbar) -->
+    <!-- QUESTION MODAL (Avatar Centrato nel box + Tasto X) -->
     <div id="question-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-8 bg-enchanted-bg/90 backdrop-blur-md opacity-0 transition-opacity duration-300">
-        <div class="glass-panel rounded-[2rem] p-8 md:p-14 w-full max-w-5xl relative transform scale-95 transition-transform duration-300 shadow-[0_0_60px_rgba(33,207,141,0.25)]">
+        <div class="glass-panel rounded-[2rem] p-8 md:p-14 w-full max-w-5xl relative transform scale-95 transition-transform duration-300 shadow-[0_0_60px_rgba(33,207,141,0.25)] flex flex-col items-center">
             
-            <div id="modal-monster-avatar" class="absolute -top-20 left-1/2 transform -translate-x-1/2 w-40 h-40 animate-bounce-slow"></div>
+            <!-- Tasto X per chiudere -->
+            <button onclick="closeModalOnly()" class="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors border border-white/20">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            
+            <!-- Avatar Mostro INTERNO e CENTRATO -->
+            <div id="modal-monster-avatar" class="w-32 h-32 md:w-40 md:h-40 animate-bounce-slow mb-6"></div>
 
-            <div class="mt-16 text-center w-full">
+            <div class="text-center w-full">
                 <div class="text-sm md:text-base font-bold text-slate-400 mb-2 tracking-widest uppercase">Livello <span id="modal-level-text">1</span></div>
                 <h3 id="monster-name" class="font-magic text-3xl md:text-4xl text-enchanted-magic mb-6 uppercase tracking-wider">Nome Mostro</h3>
                 <p id="question-text" class="text-2xl md:text-4xl font-bold mb-12 text-white leading-tight font-body">Caricamento indovinello...</p>
                 <div id="answers-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"></div>
             </div>
 
-            <div id="error-msg" class="absolute -bottom-10 left-0 w-full text-center opacity-0 transition-opacity pointer-events-none">
-                <span class="bg-red-500 text-white font-bold px-8 py-3 rounded-full shadow-xl border-2 border-red-300 animate-pulse text-lg md:text-xl">
+            <div id="error-msg" class="absolute -bottom-10 left-1/2 transform -translate-x-1/2 text-center opacity-0 transition-opacity pointer-events-none whitespace-nowrap">
+                <span class="bg-red-500 text-white font-bold px-8 py-3 rounded-full shadow-xl border-2 border-red-300 animate-pulse text-lg md:text-xl inline-block">
                     Oh no! Risposta errata. Riprova!
                 </span>
             </div>
@@ -390,33 +388,33 @@
 
         const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#9d4edd', '#ff006e', '#fca311', '#00b4d8', '#7209b7', '#ff0054', '#38b000'];
 
+        // 20 Nomi Accattivanti ed Esclusivi per i mostriciattoli
         const fullGameData = [
-            { name: 'Lo Storico', shape: 'coccus', colorIdx: 0, question: "Nel Prologo c'è scritto chi ha scoperto per caso il primo antibiotico. Chi era?", options: ["Cristoforo Colombo", "Alexander Fleming", "Galileo Galilei", "Albert Einstein"], correct: 1 },
-            { name: 'Il Naturista', shape: 'bacillus', colorIdx: 1, question: "Qual è il nome del primissimo 'antibiotico naturale' scoperto studiando un fungo?", options: ["Aspirina", "Paracetamolo", "Penicillina", "Vitamina C"], correct: 2 },
-            { name: 'L\'Assediante', shape: 'spirillum', colorIdx: 2, question: "Come funziona la Penicillina (antibiotico naturale) contro i batteri?", options: ["Distrugge la parete cellulare (le mura del castello)", "Li fa addormentare", "Dà loro lo zucchero", "Manda un virus a mangiarli"], correct: 0 },
-            { name: 'Il Sintetico', shape: 'armored', colorIdx: 3, question: "Secondo il testo, come si chiamano gli antibiotici creati dagli scienziati in laboratorio (come i Macrolidi)?", options: ["Antibiotici Alieni", "Antibiotici Magici", "Antibiotici Sintetici", "Antibiotici Finti"], correct: 2 },
-            { name: 'L\'Infiltrato', shape: 'coccus', colorIdx: 4, question: "Cosa fanno gli antibiotici sintetici (come i Macrolidi) una volta entrati nel batterio?", options: ["Distruggono le mura", "Bloccano la sintesi proteica", "Colorano il batterio di blu", "Accendono la luce"], correct: 1 },
-            { name: 'Mutante Inconsapevole', shape: 'bacillus', colorIdx: 5, question: "Come si chiama la magia oscura per cui i batteri diventano immuni alle nostre medicine?", options: ["Magia Bianca", "Antibiotico-resistenza", "Scudo di Ferro", "Invisibilità Batterica"], correct: 1 },
-            { name: 'Il Secchione', shape: 'spirillum', colorIdx: 6, question: "Il Prologo spiega che i batteri imparano a difendersi attraverso due processi naturali. Quali?", options: ["Lettura e scrittura", "Sport e diete", "Magia e stregoneria", "Mutazioni genetiche e selezione naturale"], correct: 3 },
-            { name: 'Sputa-Pillole', shape: 'armored', colorIdx: 7, question: "Quale trucchetto usano alcuni batteri per 'sputare' fuori l'antibiotico prima che faccia loro male?", options: ["Costruiscono pompe di efflusso", "Usano un ombrello", "Indossano una mascherina", "Starnutiscono fortissimo"], correct: 0 },
-            { name: 'Distruttore Beta', shape: 'coccus', colorIdx: 8, question: "I batteri resistenti possono usare enzimi chiamati Beta-lattamasi. A cosa servono?", options: ["A distruggere la struttura chimica dell'antibiotico", "A far crescere i capelli", "A creare nuove proteine", "A digerire lo zucchero"], correct: 0 },
-            { name: 'Postino Genetico', shape: 'bacillus', colorIdx: 9, question: "Il testo dice che i batteri si scambiano 'pacchetti segreti di DNA' con i super-poteri della resistenza. Come si chiamano?", options: ["Lettere magiche", "Plasmidi", "Zaini", "Batterio-mail"], correct: 1 },
-            { name: 'Il Ricercatore', shape: 'spirillum', colorIdx: 0, question: "Di chi è principalmente la colpa se l'antibiotico-resistenza è diventata un'emergenza mondiale?", options: ["Degli alieni", "Dell'inquinamento dell'aria", "Dell'abuso e dell'uso scorretto degli antibiotici", "Del cambiamento climatico"], correct: 2 },
-            { name: 'Mucca-Batterio', shape: 'armored', colorIdx: 1, question: "Oltre che dalle persone, dove vengono usati grandissime quantità di antibiotici in modo scorretto?", options: ["Nelle scuole", "Negli allevamenti intensivi di animali", "Nei parchi giochi", "Nelle piscine pubbliche"], correct: 1 },
-            { name: 'L\'Ingannatore', shape: 'virus', colorIdx: 2, question: "Regola 1! È giusto prendere l'antibiotico per curare il virus del raffreddore?", options: ["No, gli antibiotici funzionano solo contro i batteri", "Sì, se ha un buon sapore", "Sì, mezza dose", "Certo, uccide tutto"], correct: 0 },
-            { name: 'Il Dottorino', shape: 'coccus', colorIdx: 3, question: "Regola 2! Cosa devi fare prima di prendere un antibiotico avanzato dalla scatola dell'anno scorso?", options: ["Mangiarlo subito", "Chiedere sempre al medico", "Darlo al gatto", "Scioglierlo in acqua calda"], correct: 1 },
-            { name: 'Il Fuggitivo', shape: 'bacillus', colorIdx: 4, question: "Regola 3! Perché NON devi smettere di prendere l'antibiotico appena ti senti meglio?", options: ["Perché i batteri più resistenti non sono ancora morti e diventeranno più forti", "Perché la medicina scade", "Perché fa male alla pancia", "Perché bisogna finire la scatola per non sprecare plastica"], correct: 0 },
-            { name: 'Mani-Pulite', shape: 'spirillum', colorIdx: 5, question: "Regola 4! Qual è l'abitudine igienica più semplice ed efficace in assoluto per fermare i batteri?", options: ["Lavarsi sempre bene le mani", "Non uscire mai di casa", "Indossare i guanti 24 ore su 24", "Fare il bagno nel succo di limone"], correct: 0 },
-            { name: 'L\'Invisibile', shape: 'armored', colorIdx: 6, question: "Secondo il testo, possiamo vedere i batteri ad occhio nudo quando passeggiamo nel bosco?", options: ["Sì, se guardiamo bene", "No, sono creature minuscole invisibili agli occhi", "Sì, ma solo di notte", "Sì, sono grandi come formiche"], correct: 1 },
-            { name: 'Il Traditore', shape: 'coccus', colorIdx: 7, question: "Il Prologo dice che tutti i batteri del mondo sono cattivi e vogliono farci ammalare?", options: ["Sì, sono tutti mostri", "No, molti sono preziosi amici e ci aiutano a digerire", "Sì, e vengono dallo spazio", "Solo quelli colorati di verde"], correct: 1 },
-            { name: 'Lo Stratega', shape: 'bacillus', colorIdx: 8, question: "Perché gli antibiotici non funzionano contro i virus?", options: ["Perché i virus hanno lo scudo", "Perché i virus volano via", "Perché i virus non sono cellule vive", "Perché i virus sono troppo grandi"], correct: 2 },
-            { name: 'L\'Eroe Finale', shape: 'armored', colorIdx: 9, question: "Cosa stiamo cercando di proteggere seguendo le 4 Regole d'Oro?", options: ["Il Micro-Regno e l'efficacia dei farmaci", "I castelli di sabbia", "Le ricette segrete", "I batteri cattivi"], correct: 0 }
+            { name: 'Storico-Puff', shape: 'coccus', colorIdx: 0, question: "Nel Prologo c'è scritto chi ha scoperto per caso il primo antibiotico. Chi era?", options: ["Cristoforo Colombo", "Alexander Fleming", "Galileo Galilei", "Albert Einstein"], correct: 1 },
+            { name: 'Natura-Rex', shape: 'bacillus', colorIdx: 1, question: "Qual è il nome del primissimo 'antibiotico naturale' scoperto studiando un fungo?", options: ["Aspirina", "Paracetamolo", "Penicillina", "Vitamina C"], correct: 2 },
+            { name: 'Assedio-Spir', shape: 'spirillum', colorIdx: 2, question: "Come funziona la Penicillina (antibiotico naturale) contro i batteri?", options: ["Distrugge la parete cellulare (le mura del castello)", "Li fa addormentare", "Dà loro lo zucchero", "Manda un virus a mangiarli"], correct: 0 },
+            { name: 'Macrolindo Synth', shape: 'armored', colorIdx: 3, question: "Secondo il testo, come si chiamano gli antibiotici creati dagli scienziati in laboratorio (come i Macrolidi)?", options: ["Antibiotici Alieni", "Antibiotici Magici", "Antibiotici Sintetici", "Antibiotici Finti"], correct: 2 },
+            { name: 'Infiltra-Cocco', shape: 'coccus', colorIdx: 4, question: "Cosa fanno gli antibiotici sintetici (come i Macrolidi) una volta entrati nel batterio?", options: ["Distruggono le mura", "Bloccano la sintesi proteica", "Colorano il batterio di blu", "Accendono la luce"], correct: 1 },
+            { name: 'Mutantex', shape: 'bacillus', colorIdx: 5, question: "Come si chiama la magia oscura per cui i batteri diventano immuni alle nostre medicine?", options: ["Magia Bianca", "Antibiotico-resistenza", "Scudo di Ferro", "Invisibilità Batterica"], correct: 1 },
+            { name: 'Darwin-Spiro', shape: 'spirillum', colorIdx: 6, question: "Il Prologo spiega che i batteri imparano a difendersi attraverso due processi naturali. Quali?", options: ["Lettura e scrittura", "Sport e diete", "Magia e stregoneria", "Mutazioni genetiche e selezione naturale"], correct: 3 },
+            { name: 'Efflusso-Bot', shape: 'armored', colorIdx: 7, question: "Quale trucchetto usano alcuni batteri per 'sputare' fuori l'antibiotico prima che faccia loro male?", options: ["Costruiscono pompe di efflusso", "Usano un ombrello", "Indossano una mascherina", "Starnutiscono fortissimo"], correct: 0 },
+            { name: 'Beta-Distruttor', shape: 'coccus', colorIdx: 8, question: "I batteri resistenti possono usare enzimi chiamati Beta-lattamasi. A cosa servono?", options: ["A distruggere la struttura chimica dell'antibiotico", "A far crescere i capelli", "A creare nuove proteine", "A digerire lo zucchero"], correct: 0 },
+            { name: 'Plasmido-Post', shape: 'bacillus', colorIdx: 9, question: "Il testo dice che i batteri si scambiano 'pacchetti segreti di DNA' con i super-poteri della resistenza. Come si chiamano?", options: ["Lettere magiche", "Plasmidi", "Zaini", "Batterio-mail"], correct: 1 },
+            { name: 'Colpa-Cocco', shape: 'spirillum', colorIdx: 0, question: "Di chi è principalmente la colpa se l'antibiotico-resistenza è diventata un'emergenza mondiale?", options: ["Degli alieni", "Dell'inquinamento dell'aria", "Dell'abuso e dell'uso scorretto degli antibiotici", "Del cambiamento climatico"], correct: 2 },
+            { name: 'Muu-Bact', shape: 'armored', colorIdx: 1, question: "Oltre che dalle persone, dove vengono usati grandissime quantità di antibiotici in modo scorretto?", options: ["Nelle scuole", "Negli allevamenti intensivi di animali", "Nei parchi giochi", "Nelle piscine pubbliche"], correct: 1 },
+            { name: 'Falso-Allarme', shape: 'virus', colorIdx: 2, question: "Regola 1! È giusto prendere l'antibiotico per curare il virus del raffreddore?", options: ["No, gli antibiotici funzionano solo contro i batteri", "Sì, se ha un buon sapore", "Sì, mezza dose", "Certo, uccide tutto"], correct: 0 },
+            { name: 'Doc-Cocco', shape: 'coccus', colorIdx: 3, question: "Regola 2! Cosa devi fare prima di prendere un antibiotico avanzato dalla scatola dell'anno scorso?", options: ["Mangiarlo subito", "Chiedere sempre al medico", "Darlo al gatto", "Scioglierlo in acqua calda"], correct: 1 },
+            { name: 'Resisto-Max', shape: 'bacillus', colorIdx: 4, question: "Regola 3! Perché NON devi smettere di prendere l'antibiotico appena ti senti meglio?", options: ["Perché i batteri più resistenti non sono ancora morti e diventeranno più forti", "Perché la medicina scade", "Perché fa male alla pancia", "Perché bisogna finire la scatola per non sprecare plastica"], correct: 0 },
+            { name: 'Super-Wash', shape: 'spirillum', colorIdx: 5, question: "Regola 4! Qual è l'abitudine igienica più semplice ed efficace in assoluto per fermare i batteri?", options: ["Lavarsi sempre bene le mani", "Non uscire mai di casa", "Indossare i guanti 24 ore su 24", "Fare il bagno nel succo di limone"], correct: 0 },
+            { name: 'Micro-Ninja', shape: 'armored', colorIdx: 6, question: "Secondo il testo, possiamo vedere i batteri ad occhio nudo quando passeggiamo nel bosco?", options: ["Sì, se guardiamo bene", "No, sono creature minuscole invisibili agli occhi", "Sì, ma solo di notte", "Sì, sono grandi come formiche"], correct: 1 },
+            { name: 'Amico-Nemico', shape: 'coccus', colorIdx: 7, question: "Il Prologo dice che tutti i batteri del mondo sono cattivi e vogliono farci ammalare?", options: ["Sì, sono tutti mostri", "No, molti sono preziosi amici e ci aiutano a digerire", "Sì, e vengono dallo spazio", "Solo quelli colorati di verde"], correct: 1 },
+            { name: 'Scudo-Spina', shape: 'bacillus', colorIdx: 8, question: "Perché gli antibiotici non funzionano contro i virus?", options: ["Perché i virus hanno lo scudo", "Perché i virus volano via", "Perché i virus non sono cellule vive", "Perché i virus sono troppo grandi"], correct: 2 },
+            { name: 'Guardiano d\'Oro', shape: 'armored', colorIdx: 9, question: "Cosa stiamo cercando di proteggere seguendo le 4 Regole d'Oro?", options: ["Il Micro-Regno e l'efficacia dei farmaci", "I castelli di sabbia", "Le ricette segrete", "I batteri cattivi"], correct: 0 }
         ];
 
         let activeGameData = [];
         let currentLevel = 0;
 
-        // Gestione Schermate
         function goToDifficultySelection() {
             document.getElementById('screen-story').style.opacity = '0';
             setTimeout(() => {
@@ -456,7 +454,6 @@
             }, 500);
         }
 
-        // --- MAPPA E SENTIERO ---
         function buildMonstersHTML() {
             const container = document.getElementById('monsters-container');
             container.innerHTML = '';
@@ -484,7 +481,6 @@
                 container.appendChild(div);
             });
 
-            // Traguardo
             const finishDiv = document.createElement('div');
             finishDiv.id = 'finish-line-node';
             finishDiv.className = 'w-40 h-40 md:w-56 md:h-56 relative self-center mt-10 z-20 opacity-50 transition-opacity duration-1000';
@@ -554,7 +550,6 @@
             }
         }
 
-
         // --- MODALE DOMANDE ---
         const modal = document.getElementById('question-modal');
         const modalContent = modal.querySelector('.glass-panel');
@@ -564,6 +559,7 @@
             const colorHex = colors[monster.colorIdx];
             
             document.getElementById('modal-level-text').innerText = index + 1;
+            document.getElementById('monster-name').innerText = monster.name;
             document.getElementById('question-text').innerText = monster.question;
             
             document.getElementById('modal-monster-avatar').innerHTML = `
@@ -594,6 +590,18 @@
                 modal.style.opacity = '1';
                 modalContent.style.transform = 'scale(1)';
             }, 10);
+        }
+
+        // FUNZIONE PER CHIUDERE IL MODALE CON LA X (senza sconfiggere il mostro)
+        function closeModalOnly() {
+            modal.style.opacity = '0';
+            modalContent.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }, 300);
         }
 
         function checkAnswer(selectedIndex, correctIndex, btnElement) {
@@ -683,7 +691,6 @@
             }
         }
 
-        // --- VITTORIA ---
         function showWinScreen() {
             document.body.style.overflow = 'hidden';
             document.getElementById('screen-map').style.opacity = '0';
