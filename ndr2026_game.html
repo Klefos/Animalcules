@@ -481,20 +481,46 @@
                 container.appendChild(div);
             });
 
-            const finishDiv = document.createElement('div');
+          const finishDiv = document.createElement('div');
             finishDiv.id = 'finish-line-node';
             finishDiv.className = 'w-40 h-40 md:w-56 md:h-56 relative self-center mt-10 z-20 opacity-50 transition-opacity duration-1000';
             finishDiv.innerHTML = `
-                <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_0_20px_#21cf8d] animate-float">
-                    <rect x="20" y="70" width="60" height="10" fill="#fff"/>
-                    <rect x="30" y="70" width="10" height="10" fill="#000"/><rect x="50" y="70" width="10" height="10" fill="#000"/>
-                    <rect x="45" y="10" width="10" height="30" fill="rgba(255,255,255,0.8)" rx="5"/>
-                    <path d="M 45 15 C 45 5, 55 5, 55 15" fill="#d81159"/>
-                    <rect x="47" y="30" width="6" height="15" fill="#21cf8d"/>
-                    <path d="M 50 45 C 53 50, 53 55, 50 60 C 47 55, 47 50, 50 45" fill="#21cf8d" class="animate-pulse"/>
-                    <path d="M 20 40 L 45 30 Q 50 25 55 30 L 70 40 Q 60 50 50 50 L 30 50 Z" fill="#fca311"/>
+                <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_0_25px_rgba(33,207,141,0.8)] animate-float">
+                    <!-- Piedistallo/Aura magica sotto l'ampolla -->
+                    <ellipse cx="50" cy="85" rx="35" ry="10" fill="rgba(33, 207, 141, 0.2)" class="animate-pulse" />
+                    
+                    <!-- Vetro Ampolla - Sfondo -->
+                    <path d="M 40 20 L 60 20 L 60 35 C 75 45, 80 60, 75 75 C 70 90, 30 90, 25 75 C 20 60, 25 45, 40 35 Z" fill="rgba(255,255,255,0.1)" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+                    
+                    <!-- Liquido Magico (La Cura) -->
+                    <path d="M 28 60 C 40 55, 60 65, 72 60 C 76 70, 68 86, 50 86 C 32 86, 24 70, 28 60 Z" fill="url(#potion-grad)" />
+                    
+                    <!-- Bolle nel liquido (animate via CSS) -->
+                    <circle cx="45" cy="75" r="3" fill="#fff" opacity="0.6" class="animate-bounce-slow" />
+                    <circle cx="58" cy="68" r="2" fill="#fff" opacity="0.8" class="animate-bounce-slow" style="animation-delay: 0.5s;" />
+                    <circle cx="35" cy="65" r="1.5" fill="#fff" opacity="0.5" class="animate-bounce-slow" style="animation-delay: 1s;" />
+
+                    <!-- Riflesso del vetro (Luce a sinistra) -->
+                    <path d="M 32 50 C 27 60, 28 75, 38 82" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.4" />
+                    
+                    <!-- Tappo in sughero -->
+                    <path d="M 42 10 L 58 10 L 56 20 L 44 20 Z" fill="#b07d54" />
+                    <!-- Laccetto rosso attorno al collo -->
+                    <rect x="38" y="20" width="24" height="4" rx="2" fill="#d81159" />
+
+                    <!-- Scintilla di magia in alto a destra -->
+                    <path d="M 75 25 L 80 30 L 85 25 L 80 20 Z" fill="#ffe66d" class="animate-pulse" />
+                    <path d="M 85 35 L 88 38 L 91 35 L 88 32 Z" fill="#fff" class="animate-pulse" style="animation-delay: 0.3s;" />
+
+                    <!-- Gradiente per il liquido -->
+                    <defs>
+                        <linearGradient id="potion-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#0EA5E9" />
+                            <stop offset="100%" stop-color="#21cf8d" />
+                        </linearGradient>
+                    </defs>
                 </svg>
-                <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-enchanted-path font-magic text-2xl whitespace-nowrap">LA CURA!</div>
+                <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-enchanted-path font-magic text-2xl md:text-3xl whitespace-nowrap drop-shadow-[0_0_10px_rgba(33,207,141,0.8)]">LA CURA!</div>
             `;
             container.appendChild(finishDiv);
         }
