@@ -35,7 +35,6 @@
                         'pulse-glow': 'pulseGlow 2s infinite',
                         'pop-in': 'popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
                         'spin-shrink': 'spinShrink 0.8s ease-in forwards',
-                        'pawn-jump': 'pawnJump 0.5s ease-in-out'
                     },
                     keyframes: {
                         float: {
@@ -144,6 +143,19 @@
             transform: translate(-50%, -50%);
             z-index: 30;
         }
+        
+        /* Personalizzazione Scrollbar per il testo iniziale */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #21cf8d;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body class="font-body antialiased min-h-screen relative selection:bg-enchanted-magic selection:text-white">
@@ -155,34 +167,97 @@
         <div class="absolute bottom-1/4 left-1/4 w-3 h-3 bg-enchanted-magic rounded-full blur-[1px] animate-float opacity-60"></div>
     </div>
 
-    <!-- START SCREEN (SELEZIONE LIVELLO) -->
-    <div id="screen-start" class="fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-500 overflow-y-auto">
-        <div class="glass-panel rounded-[2rem] p-8 md:p-12 w-full max-w-4xl text-center relative overflow-hidden animate-pop-in my-8">
+    <!-- SCREEN 1: IL PROLOGO (La Storia) -->
+    <div id="screen-story" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 transition-opacity duration-500">
+        <div class="glass-panel rounded-[2rem] p-8 md:p-12 w-full max-w-5xl h-[90vh] flex flex-col relative overflow-hidden animate-pop-in">
+            
+            <h1 class="font-magic text-4xl md:text-5xl mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-enchanted-path via-white to-enchanted-glow drop-shadow-lg shrink-0">
+                Il Prologo del Micro-Regno
+            </h1>
+            
+            <!-- Contenitore del testo con scroll -->
+            <div class="overflow-y-auto custom-scrollbar flex-grow pr-4 space-y-6 text-lg md:text-xl text-slate-200 leading-relaxed font-semibold">
+                
+                <p>
+                    Sapevate che il nostro mondo è pieno di minuscole creature invisibili agli occhi? Si chiamano <span class="text-white font-bold">batteri</span>! Molti di loro sono nostri preziosi amici e ci aiutano a digerire, ma alcuni sono patogeni dispettosi che si divertono a farci ammalare.
+                </p>
+
+                <p>
+                    Per fortuna, quasi 100 anni fa, un geniale scienziato di nome <span class="text-white font-bold">Alexander Fleming</span> scoprì per caso una magia potentissima. Nel suo laboratorio notò che un fungo produceva una sostanza speciale, capace di sconfiggere i batteri cattivi che vi si avvicinavano. Era nata la <span class="text-enchanted-path font-bold text-2xl">Penicillina</span>, il primo antibiotico naturale della storia!
+                </p>
+
+                <h3 class="font-magic text-2xl text-enchanted-glow mt-8 mb-2">Come funzionano queste Armi Magiche?</h3>
+                <p>
+                    Immaginate gli antibiotici come dei minuscoli cavalieri corazzati. <br>
+                    Alcuni, come la Penicillina (che è un'arma creata direttamente dalla natura), sono veri e propri maestri d'assedio: la loro specialità è attaccare e <span class="text-white font-bold">distruggere la parete cellulare</span>, ovvero le forti "mura" protettive del castello batterico.
+                </p>
+                <p>
+                    Altri cavalieri, invece, non esistono in natura ma sono stati inventati dai nostri scienziati in laboratorio: sono gli <span class="text-enchanted-magic font-bold text-2xl">Antibiotici Sintetici</span>, come ad esempio i Macrolidi. Loro non attaccano le mura, ma entrano di nascosto nel batterio e <span class="text-white font-bold">bloccano la sintesi proteica</span>, impedendogli di costruire le proteine di cui ha bisogno per vivere.
+                </p>
+
+                <h3 class="font-magic text-2xl text-red-400 mt-8 mb-2">La Minaccia dell'Antibiotico-Resistenza</h3>
+                <p>
+                    Ma fate attenzione! I batteri sono nemici estremamente furbi e si adattano velocemente. Se usiamo male le nostre pozioni magiche, loro studiano le nostre armi e imparano a difendersi. Attraverso <span class="text-white font-bold">mutazioni genetiche e selezione naturale</span>, i batteri più forti sopravvivono e diventano immortali a quella medicina. 
+                </p>
+                <p>
+                    Questa magia oscura si chiama <span class="text-red-400 font-bold">Antibiotico-resistenza</span> e crea dei super-batteri difficilissimi da sconfiggere! Usano trucchetti perfidi, ad esempio costruiscono le <span class="text-white font-bold">pompe di efflusso</span> per "sputare" fuori l'antibiotico prima che faccia loro male, oppure creano enzimi (come le <span class="text-white font-bold">Beta-lattamasi</span>) capaci di distruggere la struttura chimica dell'antibiotico rendendolo innocuo. 
+                    Peggio ancora: i batteri possono passarsi questi "super-poteri" scambiandosi dei pacchetti segreti di DNA chiamati <span class="text-white font-bold">plasmidi</span>!
+                </p>
+                <p>
+                    Il problema è così grave che è diventato un'emergenza mondiale, e la colpa è soprattutto dell'<span class="text-white font-bold">abuso e dell'uso scorretto degli antibiotici</span>, non solo da parte delle persone, ma anche nelle grandissime fattorie (gli <span class="text-white font-bold">allevamenti intensivi</span>) dove vengono dati agli animali!
+                </p>
+
+                <h3 class="font-magic text-2xl text-yellow-400 mt-8 mb-2">Le Regole dei Veri Ricercatori</h3>
+                <p>
+                    Per proteggere il Micro-Regno e non perdere l'efficacia di questi farmaci, dobbiamo rispettare quattro Regole d'Oro:
+                </p>
+                <ul class="list-disc pl-8 space-y-2 mt-4 text-white">
+                    <li><span class="text-enchanted-path font-bold">Regola 1:</span> Usa gli antibiotici <span class="underline">solo contro i batteri</span>! Contro i virus (come quello che causa il raffreddore) non servono assolutamente a nulla, perché i virus non sono cellule vive.</li>
+                    <li><span class="text-enchanted-path font-bold">Regola 2:</span> Ascolta sempre il tuo medico. Non prendere mai antibiotici avanzati dalla scatola dell'anno scorso senza averglielo chiesto!</li>
+                    <li><span class="text-enchanted-path font-bold">Regola 3:</span> <span class="underline">Finisci tutta la cura!</span> Non smettere di prendere l'antibiotico appena ti senti meglio. Se ti fermi in anticipo, i batteri più resistenti che non sono ancora morti sopravvivono e diventano ancora più forti!</li>
+                    <li><span class="text-enchanted-path font-bold">Regola 4:</span> <span class="underline">Lavati sempre bene le mani!</span> È l'abitudine igienica più semplice ed efficace in assoluto per fermare la diffusione dei batteri.</li>
+                </ul>
+
+                <p class="text-center text-enchanted-glow font-bold mt-12 text-2xl">
+                    Leggi attentamente queste pergamene... <br>Tutte le risposte della tua avventura si nascondono qui dentro!
+                </p>
+
+            </div>
+
+            <div class="mt-8 text-center shrink-0">
+                <button onclick="goToDifficultySelection()" class="magic-btn font-magic text-2xl text-white px-10 py-4 rounded-2xl w-full md:w-auto inline-flex items-center justify-center gap-3">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    Ho Letto, Inizia la Sfida!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: START SCREEN (SELEZIONE LIVELLO) -->
+    <div id="screen-start" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-500 overflow-y-auto">
+        <div class="glass-panel rounded-[2rem] p-8 md:p-12 w-full max-w-4xl text-center relative overflow-hidden my-8 transform scale-95 transition-transform duration-500" id="start-panel">
             <h1 class="font-magic text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-enchanted-path via-white to-enchanted-glow drop-shadow-lg leading-tight">
-                Il Micro-Regno<br>Incantato
+                Seleziona la Difficoltà
             </h1>
             <p class="text-lg md:text-xl text-blue-100 mb-10 font-semibold">
-                Scegli la tua difficoltà e libera il sentiero dai patogeni!
+                Hai studiato le pergamene? Scegli il tuo sentiero!
             </p>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                <!-- Facile -->
                 <button onclick="startGame(7)" class="group glass-panel border border-brand-green/30 p-8 rounded-2xl hover:bg-white/10 transition-all hover:-translate-y-2 text-center flex flex-col items-center">
                     <div class="text-5xl mb-4 group-hover:scale-125 transition-transform">🌱</div>
                     <h3 class="font-magic text-2xl text-enchanted-path mb-2">Apprendista Curioso</h3>
-                    <p class="text-sm text-slate-300">7 Livelli<br>(Percorso Facile)</p>
+                    <p class="text-sm text-slate-300">7 Domande<br>(Percorso Breve)</p>
                 </button>
-                <!-- Medio -->
                 <button onclick="startGame(14)" class="group glass-panel border border-yellow-400/30 p-8 rounded-2xl hover:bg-white/10 transition-all hover:-translate-y-2 text-center flex flex-col items-center">
                     <div class="text-5xl mb-4 group-hover:scale-125 transition-transform">🔬</div>
                     <h3 class="font-magic text-2xl text-yellow-400 mb-2">Esploratore Audace</h3>
-                    <p class="text-sm text-slate-300">14 Livelli<br>(Percorso Medio)</p>
+                    <p class="text-sm text-slate-300">14 Domande<br>(Percorso Medio)</p>
                 </button>
-                <!-- Esperto -->
                 <button onclick="startGame(20)" class="group glass-panel border border-enchanted-magic/30 p-8 rounded-2xl hover:bg-white/10 transition-all hover:-translate-y-2 text-center flex flex-col items-center">
                     <div class="text-5xl mb-4 group-hover:scale-125 transition-transform">🦸‍♂️</div>
                     <h3 class="font-magic text-2xl text-enchanted-magic mb-2">Eroe del Laboratorio</h3>
-                    <p class="text-sm text-slate-300">20 Livelli<br>(Percorso Esperto)</p>
+                    <p class="text-sm text-slate-300">20 Domande<br>(Percorso Completo)</p>
                 </button>
             </div>
         </div>
@@ -190,8 +265,7 @@
 
     <!-- MAP SCREEN -->
     <div id="screen-map" class="hidden relative w-full max-w-5xl mx-auto py-10 px-4 opacity-0 transition-opacity duration-500 min-h-screen">
-        
-        <!-- Header Sticky Mappa -->
+        <!-- Header -->
         <div class="sticky top-4 z-40 glass-panel rounded-2xl p-4 md:p-6 flex justify-between items-center mb-12 shadow-2xl">
             <div class="font-magic text-xl md:text-2xl text-enchanted-path flex items-center gap-2">
                 <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
@@ -202,71 +276,43 @@
             </div>
         </div>
 
-        <!-- Contenitore Principale con Sentiero e Mostri -->
         <div id="game-area" class="relative w-full pb-40">
-            
-            <!-- SVG del Sentiero Disegnato Dinamicamente via JS -->
+            <!-- SVG Sentiero -->
             <svg id="svg-layer" class="absolute top-0 left-0 w-full h-full pointer-events-none z-0" preserveAspectRatio="none">
                 <path id="dynamic-path-glow" fill="none" stroke="rgba(33, 207, 141, 0.2)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
                 <path id="dynamic-path" fill="none" stroke="#21cf8d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="path-line"/>
             </svg>
 
-            <!-- Pedina Animata Giocatore -->
+            <!-- Pedina -->
             <div id="player-pawn" class="w-16 h-16 hidden">
-                <!-- SVG Pillola Vivente -->
                 <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_5px_10px_rgba(0,0,0,0.5)] animate-bounce-slow">
-                    <!-- Corpo Pillola -->
                     <rect x="25" y="10" width="50" height="80" rx="25" fill="#0EA5E9"/>
                     <path d="M 25 50 L 75 50 L 75 85 C 75 98 25 98 25 85 Z" fill="#21cf8d"/>
                     <line x1="25" y1="50" x2="75" y2="50" stroke="#fff" stroke-width="4"/>
-                    <!-- Occhietti -->
-                    <circle cx="40" cy="35" r="6" fill="#fff"/>
-                    <circle cx="60" cy="35" r="6" fill="#fff"/>
-                    <circle cx="40" cy="35" r="3" fill="#000"/>
-                    <circle cx="60" cy="35" r="3" fill="#000"/>
-                    <!-- Sorriso -->
+                    <circle cx="40" cy="35" r="6" fill="#fff"/><circle cx="60" cy="35" r="6" fill="#fff"/>
+                    <circle cx="40" cy="35" r="3" fill="#000"/><circle cx="60" cy="35" r="3" fill="#000"/>
                     <path d="M 40 70 Q 50 80 60 70" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
                 </svg>
             </div>
 
-            <!-- I nodi (Mostri e Traguardo) inseriti dinamicamente -->
-            <div id="monsters-container" class="relative z-10 flex flex-col w-full gap-[15vh]">
-                <!-- Popolato da JS -->
-            </div>
+            <!-- Nodi Mostri -->
+            <div id="monsters-container" class="relative z-10 flex flex-col w-full gap-[15vh]"></div>
         </div>
     </div>
 
-    <!-- QUESTION MODAL (Centrato Fisso - ORA PIU GRANDE E SENZA SCROLLBAR) -->
+    <!-- QUESTION MODAL (Centrato e senza scrollbar) -->
     <div id="question-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-8 bg-enchanted-bg/90 backdrop-blur-md opacity-0 transition-opacity duration-300">
-        <!-- Rimosso max-h e overflow-y-auto, allargato a max-w-5xl, aumentato il padding -->
         <div class="glass-panel rounded-[2rem] p-8 md:p-14 w-full max-w-5xl relative transform scale-95 transition-transform duration-300 shadow-[0_0_60px_rgba(33,207,141,0.25)]">
             
-            <!-- Avatar Mostro centrato in alto -->
-            <div id="modal-monster-avatar" class="absolute -top-20 left-1/2 transform -translate-x-1/2 w-40 h-40 animate-bounce-slow">
-                <!-- SVG Inserito da JS -->
-            </div>
+            <div id="modal-monster-avatar" class="absolute -top-20 left-1/2 transform -translate-x-1/2 w-40 h-40 animate-bounce-slow"></div>
 
-            <!-- Contenuto della Domanda (Spazioso e largo) -->
             <div class="mt-16 text-center w-full">
-                <div class="text-sm md:text-base font-bold text-slate-400 mb-2 tracking-widest uppercase">
-                    Livello <span id="modal-level-text">1</span>
-                </div>
-                
-                <h3 id="monster-name" class="font-magic text-3xl md:text-4xl text-enchanted-magic mb-6 uppercase tracking-wider">
-                    Nome Mostro
-                </h3>
-                
-                <p id="question-text" class="text-2xl md:text-4xl font-bold mb-12 text-white leading-tight font-body">
-                    Caricamento indovinello...
-                </p>
-                
-                <!-- Griglia dei Pulsanti più larga e con più gap -->
-                <div id="answers-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <!-- Bottoni generati da JS -->
-                </div>
+                <div class="text-sm md:text-base font-bold text-slate-400 mb-2 tracking-widest uppercase">Livello <span id="modal-level-text">1</span></div>
+                <h3 id="monster-name" class="font-magic text-3xl md:text-4xl text-enchanted-magic mb-6 uppercase tracking-wider">Nome Mostro</h3>
+                <p id="question-text" class="text-2xl md:text-4xl font-bold mb-12 text-white leading-tight font-body">Caricamento indovinello...</p>
+                <div id="answers-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"></div>
             </div>
 
-            <!-- Messaggio di Errore -->
             <div id="error-msg" class="absolute -bottom-10 left-0 w-full text-center opacity-0 transition-opacity pointer-events-none">
                 <span class="bg-red-500 text-white font-bold px-8 py-3 rounded-full shadow-xl border-2 border-red-300 animate-pulse text-lg md:text-xl">
                     Oh no! Risposta errata. Riprova!
@@ -279,26 +325,15 @@
     <div id="screen-win" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-enchanted-bg/95 backdrop-blur-md opacity-0 transition-opacity duration-1000">
         <div class="text-center relative">
             <div class="absolute inset-0 bg-[radial-gradient(circle,rgba(33,207,141,0.4)_0%,transparent_70%)] animate-pulse-glow z-0"></div>
-            
             <div class="relative z-10">
                 <svg class="w-48 h-48 mx-auto mb-6 drop-shadow-[0_0_30px_#21cf8d] animate-float" viewBox="0 0 24 24" fill="none" stroke="#21cf8d" stroke-width="1.5">
                     <path d="M9 3h6v4l4 10v4H5v-4l4-10V3z" fill="rgba(33,207,141,0.2)"/>
                     <path d="M5 17h14M9 7h6" stroke-linecap="round"/>
-                    <circle cx="12" cy="14" r="1.5" fill="#fff" stroke="none"/>
-                    <circle cx="10" cy="17" r="1" fill="#fff" stroke="none"/>
-                    <circle cx="14" cy="18" r="1.5" fill="#fff" stroke="none"/>
+                    <circle cx="12" cy="14" r="1.5" fill="#fff" stroke="none"/><circle cx="10" cy="17" r="1" fill="#fff" stroke="none"/><circle cx="14" cy="18" r="1.5" fill="#fff" stroke="none"/>
                 </svg>
-
-                <h1 class="font-magic text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-enchanted-path to-white drop-shadow-lg">
-                    Vittoria Epica!
-                </h1>
-                <p class="text-xl md:text-2xl text-blue-100 mb-10 font-bold max-w-2xl mx-auto">
-                    Hai completato il sentiero, salvando il Micro-Regno con la scienza!
-                </p>
-                
-                <button onclick="location.reload()" class="magic-btn font-magic text-2xl text-white px-10 py-4 rounded-2xl">
-                    Gioca di Nuovo
-                </button>
+                <h1 class="font-magic text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-enchanted-path to-white drop-shadow-lg">Vittoria Epica!</h1>
+                <p class="text-xl md:text-2xl text-blue-100 mb-10 font-bold max-w-2xl mx-auto">Hai dimostrato di essere un vero ricercatore completando il sentiero!</p>
+                <button onclick="location.reload()" class="magic-btn font-magic text-2xl text-white px-10 py-4 rounded-2xl">Torna al Prologo</button>
             </div>
         </div>
     </div>
@@ -310,38 +345,57 @@
             bacillus: (c) => `<rect x="20" y="10" width="60" height="80" rx="30" fill="${c}"/><circle cx="40" cy="35" r="5" fill="#fff"/><circle cx="60" cy="35" r="5" fill="#fff"/><circle cx="40" cy="35" r="2" fill="#000"/><circle cx="60" cy="35" r="2" fill="#000"/><path d="M 40 70 L 60 70" stroke="#fff" stroke-width="4" stroke-linecap="round"/>`,
             spirillum: (c) => `<path d="M 50 10 Q 80 25 50 50 T 50 90" stroke="${c}" stroke-width="30" stroke-linecap="round" fill="none"/><circle cx="45" cy="30" r="4" fill="#fff"/><circle cx="65" cy="30" r="4" fill="#fff"/><circle cx="45" cy="30" r="1.5" fill="#000"/><circle cx="65" cy="30" r="1.5" fill="#000"/>`,
             armored: (c) => `<rect x="20" y="20" width="60" height="60" rx="15" fill="${c}"/><path d="M 30 10 L 70 10 L 50 30 Z" fill="#fff" opacity="0.5"/><circle cx="35" cy="45" r="4" fill="#fff"/><circle cx="65" cy="45" r="4" fill="#fff"/><circle cx="35" cy="45" r="1.5" fill="#000"/><circle cx="65" cy="45" r="1.5" fill="#000"/><path d="M 45 65 L 55 65" stroke="#fff" stroke-width="3" stroke-linecap="round"/>`,
-            virus: (c) => `<polygon points="50,10 75,35 65,75 35,75 25,35" fill="${c}"/><circle cx="40" cy="45" r="4" fill="#fff"/><circle cx="60" cy="45" r="4" fill="#fff"/><circle cx="40" cy="45" r="1.5" fill="#000"/><circle cx="60" cy="45" r="1.5" fill="#000"/><line x1="50" y1="10" x2="50" y2="-10" stroke="${c}" stroke-width="4"/><line x1="75" y1="35" x2="90" y2="30" stroke="${c}" stroke-width="4"/><line x1="25" y1="35" x2="10" y2="30" stroke="${c}" stroke-width="4"/>`,
-            protozoa: (c) => `<path d="M 50 10 C 80 10 90 40 80 70 C 70 100 30 90 20 70 C 10 50 20 10 50 10 Z" fill="${c}"/><circle cx="40" cy="40" r="8" fill="#fff"/><circle cx="60" cy="50" r="10" fill="#fff"/><circle cx="40" cy="40" r="3" fill="#000"/><circle cx="60" cy="50" r="4" fill="#000"/><path d="M 45 75 Q 50 80 55 70" stroke="rgba(0,0,0,0.3)" stroke-width="4" fill="none" stroke-linecap="round"/>`
+            virus: (c) => `<polygon points="50,10 75,35 65,75 35,75 25,35" fill="${c}"/><circle cx="40" cy="45" r="4" fill="#fff"/><circle cx="60" cy="45" r="4" fill="#fff"/><circle cx="40" cy="45" r="1.5" fill="#000"/><circle cx="60" cy="45" r="1.5" fill="#000"/><line x1="50" y1="10" x2="50" y2="-10" stroke="${c}" stroke-width="4"/><line x1="75" y1="35" x2="90" y2="30" stroke="${c}" stroke-width="4"/><line x1="25" y1="35" x2="10" y2="30" stroke="${c}" stroke-width="4"/>`
         };
 
         const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#9d4edd', '#ff006e', '#fca311', '#00b4d8', '#7209b7', '#ff0054', '#38b000'];
 
-        // Dati completi (20 domande)
+        /* 
+         * ATTENZIONE: TUTTE LE 20 DOMANDE ORA SONO STRETTAMENTE BASATE 
+         * SUL TESTO INTRODUTTIVO (IL PROLOGO) 
+         */
         const fullGameData = [
-            { name: 'Batterio Batuffolo', shape: 'coccus', colorIdx: 0, question: "Cucù! Sono un batterio. Cosa usano gli umani per uccidermi senza fare del male alle proprie cellule?", options: ["Vitamine", "Gli antibiotici", "Zucchero", "Paracetamolo"], correct: 1 },
-            { name: 'Bacillo Muratore', shape: 'bacillus', colorIdx: 1, question: "Sto costruendo il mio muro protettivo! Quale antibiotico, scoperto da Fleming, distrugge la mia parete cellulare?", options: ["Penicillina", "Aspirina", "Sciroppo", "Cortisone"], correct: 0 },
-            { name: 'Ribosoma Affamato', shape: 'spirillum', colorIdx: 2, question: "Nella mia 'fabbrica' produco proteine. Quale antibiotico blocca la mia sintesi proteica?", options: ["Creme solari", "Macrolidi e Tetracicline", "Antistaminici", "Sali minerali"], correct: 1 },
-            { name: 'Mutante Inconsapevole', shape: 'coccus', colorIdx: 3, question: "L'antibiotico non mi fa più niente! Come si chiama il processo per cui sviluppo questa resistenza?", options: ["Digestione magica", "Mutazioni e selezione naturale", "Palestra", "Respirazione profonda"], correct: 1 },
-            { name: 'Sputa-Pillole', shape: 'bacillus', colorIdx: 4, question: "Bleah! Che meccanismo uso per 'sputare' letteralmente fuori l'antibiotico prima che mi faccia male?", options: ["Pompe di efflusso", "Scudo di metallo", "Invisibilità", "Raggio laser"], correct: 0 },
-            { name: 'Distruttore Beta', shape: 'armored', colorIdx: 5, question: "Ho un enzima chiamato Beta-lattamasi! Cosa fa questo enzima alla penicillina?", options: ["La colora", "La zuccherata", "Ne distrugge la struttura chimica", "La fa rimbalzare"], correct: 2 },
-            { name: 'Il Trasformista', shape: 'spirillum', colorIdx: 6, question: "Hai l'antibiotico, ma io ho cambiato serratura! Come si chiama questa strategia?", options: ["Fuga tattica", "Modifica del sito bersaglio", "Moltiplicazione per zero", "Barriera corallina"], correct: 1 },
-            { name: 'Postino Genetico', shape: 'bacillus', colorIdx: 7, question: "Ehi, tieni questo plasmide! Cosa ci passiamo quando scambiamo questi pezzetti di DNA?", options: ["Ricette", "Geni dell'antibiotico-resistenza", "Biglietti", "Energia solare"], correct: 1 },
-            { name: 'Super-Ghiottone', shape: 'coccus', colorIdx: 8, question: "Qual è il motivo PRINCIPALE per cui l'antibiotico-resistenza sta diventando un'emergenza globale?", options: ["L'abuso scorretto degli antibiotici", "Riscaldamento globale", "Carenza di sonno", "Inquinamento"], correct: 0 },
-            { name: 'Mucca-Batterio', shape: 'armored', colorIdx: 9, question: "In quale altro settore vengono usati enormi quantità di antibiotici, favorendo la resistenza?", options: ["Videogiochi", "Negli allevamenti intensivi", "Automobili", "Parchi acquatici"], correct: 1 },
-            { name: 'Batterio Buono', shape: 'bacillus', colorIdx: 0, question: "Cosa succede al tuo 'microbioma' sano quando prendi antibiotici a largo spettro?", options: ["Diventa fluorescente", "Vengono uccisi anche i batteri buoni", "Diventa veloce", "Non succede nulla"], correct: 1 },
-            { name: 'Virus Spinoso', shape: 'virus', colorIdx: 1, question: "Sono un virus del raffreddore. Perché è inutile prendere un antibiotico contro di me?", options: ["Gli antibiotici colpiscono solo i batteri", "Ho un'armatura", "Volo in alto", "Ho il vaccino"], correct: 0 },
-            { name: 'Proto Blob', shape: 'protozoa', colorIdx: 2, question: "Sono un protozoo, eucariote come la Malaria. Posso essere sconfitto con i normali antibiotici?", options: ["Sì", "No, servono farmaci antiprotozoari specifici", "Forse", "Sono immortale"], correct: 1 },
-            { name: 'MRSA il Terribile', shape: 'armored', colorIdx: 3, question: "Mi chiamano MRSA. Perché i medici mi temono tanto negli ospedali?", options: ["Sono resistente a gran parte degli antibiotici comuni", "Faccio rumore", "Spengo le luci", "Rubo bende"], correct: 0 },
-            { name: 'Sporco Ribelle', shape: 'spirillum', colorIdx: 4, question: "Qual è il modo più semplice ed efficace per fermare la diffusione di noi batteri resistenti?", options: ["Cantare forte", "Igiene corretta e lavaggio mani", "Nascondersi", "Mangiare caramelle"], correct: 1 },
-            { name: 'Il Fuggitivo', shape: 'coccus', colorIdx: 5, question: "Perché è pericoloso interrompere la cura antibiotica in anticipo se ti senti già bene?", options: ["I batteri più forti sopravvivono e imparano a resistere", "Il farmaco scade", "Non è pericoloso", "Il medico si arrabbia"], correct: 0 },
-            { name: 'Ladro di DNA', shape: 'bacillus', colorIdx: 6, question: "Un batterio morto ha lasciato il suo DNA. Come si chiama questo 'furto genetico' dall'ambiente?", options: ["Clonazione", "Trasformazione", "Teletrasporto", "Riciclo"], correct: 1 },
-            { name: 'Saggio Antico', shape: 'coccus', colorIdx: 7, question: "Ho 10.000 anni e sono già resistente! Come è possibile se non avevate le medicine?", options: ["Alieni", "I batteri producono antibiotici naturali da milioni di anni per competere", "Errore", "Viaggi nel tempo"], correct: 1 },
-            { name: 'Cacciatore di Fagi', shape: 'armored', colorIdx: 8, question: "Cos'è un Fago (usato nella Terapia Fagica)?", options: ["Un insetto", "Un fagiolo", "Un virus speciale che uccide solo noi batteri", "Un raggio gamma"], correct: 2 },
-            { name: 'Mega Boss', shape: 'virus', colorIdx: 9, question: "Dato che stiamo esaurendo gli antibiotici funzionanti, cosa devono fare i ricercatori?", options: ["Scoprire nuove molecole e terapie", "Arrendersi", "Usare la magia", "Usare erbe medievali"], correct: 0 }
+            { name: 'Lo Storico', shape: 'coccus', colorIdx: 0, question: "Nel Prologo c'è scritto chi ha scoperto per caso il primo antibiotico. Chi era?", options: ["Cristoforo Colombo", "Alexander Fleming", "Galileo Galilei", "Albert Einstein"], correct: 1 },
+            { name: 'Il Naturista', shape: 'bacillus', colorIdx: 1, question: "Qual è il nome del primissimo 'antibiotico naturale' scoperto studiando un fungo?", options: ["Aspirina", "Paracetamolo", "Penicillina", "Vitamina C"], correct: 2 },
+            { name: 'L\'Assediante', shape: 'spirillum', colorIdx: 2, question: "Come funziona la Penicillina (antibiotico naturale) contro i batteri?", options: ["Distrugge la parete cellulare (le mura del castello)", "Li fa addormentare", "Dà loro lo zucchero", "Manda un virus a mangiarli"], correct: 0 },
+            { name: 'Il Sintetico', shape: 'armored', colorIdx: 3, question: "Secondo il testo, come si chiamano gli antibiotici creati dagli scienziati in laboratorio (come i Macrolidi)?", options: ["Antibiotici Alieni", "Antibiotici Magici", "Antibiotici Sintetici", "Antibiotici Finti"], correct: 2 },
+            { name: 'L\'Infiltrato', shape: 'coccus', colorIdx: 4, question: "Cosa fanno gli antibiotici sintetici (come i Macrolidi) una volta entrati nel batterio?", options: ["Distruggono le mura", "Bloccano la sintesi proteica", "Colorano il batterio di blu", "Accendono la luce"], correct: 1 },
+            { name: 'Mutante Inconsapevole', shape: 'bacillus', colorIdx: 5, question: "Come si chiama la magia oscura per cui i batteri diventano immuni alle nostre medicine?", options: ["Magia Bianca", "Antibiotico-resistenza", "Scudo di Ferro", "Invisibilità Batterica"], correct: 1 },
+            { name: 'Il Secchione', shape: 'spirillum', colorIdx: 6, question: "Il Prologo spiega che i batteri imparano a difendersi attraverso due processi naturali. Quali?", options: ["Lettura e scrittura", "Sport e diete", "Magia e stregoneria", "Mutazioni genetiche e selezione naturale"], correct: 3 },
+            { name: 'Sputa-Pillole', shape: 'armored', colorIdx: 7, question: "Quale trucchetto usano alcuni batteri per 'sputare' fuori l'antibiotico prima che faccia loro male?", options: ["Costruiscono pompe di efflusso", "Usano un ombrello", "Indossano una mascherina", "Starnutiscono fortissimo"], correct: 0 },
+            { name: 'Distruttore Beta', shape: 'coccus', colorIdx: 8, question: "I batteri resistenti possono usare enzimi chiamati Beta-lattamasi. A cosa servono?", options: ["A distruggere la struttura chimica dell'antibiotico", "A far crescere i capelli", "A creare nuove proteine", "A digerire lo zucchero"], correct: 0 },
+            { name: 'Postino Genetico', shape: 'bacillus', colorIdx: 9, question: "Il testo dice che i batteri si scambiano 'pacchetti segreti di DNA' con i super-poteri della resistenza. Come si chiamano?", options: ["Lettere magiche", "Plasmidi", "Zaini", "Batterio-mail"], correct: 1 },
+            { name: 'Il Ricercatore', shape: 'spirillum', colorIdx: 0, question: "Di chi è principalmente la colpa se l'antibiotico-resistenza è diventata un'emergenza mondiale?", options: ["Degli alieni", "Dell'inquinamento dell'aria", "Dell'abuso e dell'uso scorretto degli antibiotici", "Del cambiamento climatico"], correct: 2 },
+            { name: 'Mucca-Batterio', shape: 'armored', colorIdx: 1, question: "Oltre che dalle persone, dove vengono usati grandissime quantità di antibiotici in modo scorretto?", options: ["Nelle scuole", "Negli allevamenti intensivi di animali", "Nei parchi giochi", "Nelle piscine pubbliche"], correct: 1 },
+            { name: 'L\'Ingannatore', shape: 'virus', colorIdx: 2, question: "Regola 1! È giusto prendere l'antibiotico per curare il virus del raffreddore?", options: ["No, gli antibiotici funzionano solo contro i batteri", "Sì, se ha un buon sapore", "Sì, mezza dose", "Certo, uccide tutto"], correct: 0 },
+            { name: 'Il Dottorino', shape: 'coccus', colorIdx: 3, question: "Regola 2! Cosa devi fare prima di prendere un antibiotico avanzato dalla scatola dell'anno scorso?", options: ["Mangiarlo subito", "Chiedere sempre al medico", "Darlo al gatto", "Scioglierlo in acqua calda"], correct: 1 },
+            { name: 'Il Fuggitivo', shape: 'bacillus', colorIdx: 4, question: "Regola 3! Perché NON devi smettere di prendere l'antibiotico appena ti senti meglio?", options: ["Perché i batteri più resistenti non sono ancora morti e diventeranno più forti", "Perché la medicina scade", "Perché fa male alla pancia", "Perché bisogna finire la scatola per non sprecare plastica"], correct: 0 },
+            { name: 'Mani-Pulite', shape: 'spirillum', colorIdx: 5, question: "Regola 4! Qual è l'abitudine igienica più semplice ed efficace in assoluto per fermare i batteri?", options: ["Lavarsi sempre bene le mani", "Non uscire mai di casa", "Indossare i guanti 24 ore su 24", "Fare il bagno nel succo di limone"], correct: 0 },
+            { name: 'L\'Invisibile', shape: 'armored', colorIdx: 6, question: "Secondo il testo, possiamo vedere i batteri ad occhio nudo quando passeggiamo nel bosco?", options: ["Sì, se guardiamo bene", "No, sono creature minuscole invisibili agli occhi", "Sì, ma solo di notte", "Sì, sono grandi come formiche"], correct: 1 },
+            { name: 'Il Traditore', shape: 'coccus', colorIdx: 7, question: "Il Prologo dice che tutti i batteri del mondo sono cattivi e vogliono farci ammalare?", options: ["Sì, sono tutti mostri", "No, molti sono preziosi amici e ci aiutano a digerire", "Sì, e vengono dallo spazio", "Solo quelli colorati di verde"], correct: 1 },
+            { name: 'Lo Stratega', shape: 'bacillus', colorIdx: 8, question: "Perché gli antibiotici non funzionano contro i virus?", options: ["Perché i virus hanno lo scudo", "Perché i virus volano via", "Perché i virus non sono cellule vive", "Perché i virus sono troppo grandi"], correct: 2 },
+            { name: 'L\'Eroe Finale', shape: 'armored', colorIdx: 9, question: "Cosa stiamo cercando di proteggere seguendo le 4 Regole d'Oro?", options: ["Il Micro-Regno e l'efficacia dei farmaci", "I castelli di sabbia", "Le ricette segrete", "I batteri cattivi"], correct: 0 }
         ];
 
         let activeGameData = [];
         let currentLevel = 0;
+
+        // Gestione Schermate
+        function goToDifficultySelection() {
+            document.getElementById('screen-story').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('screen-story').classList.add('hidden');
+                
+                const startScreen = document.getElementById('screen-start');
+                startScreen.classList.remove('hidden');
+                startScreen.classList.add('flex');
+                
+                setTimeout(() => {
+                    startScreen.style.opacity = '1';
+                    document.getElementById('start-panel').style.transform = 'scale(1)';
+                }, 50);
+            }, 500);
+        }
 
         function startGame(numLevels) {
             activeGameData = fullGameData.slice(0, numLevels);
@@ -350,14 +404,13 @@
             document.getElementById('screen-start').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('screen-start').classList.add('hidden');
-                document.getElementById('screen-map').classList.remove('hidden');
+                document.getElementById('screen-start').classList.remove('flex');
                 
-                // Aggiorna interfaccia punteggio
+                document.getElementById('screen-map').classList.remove('hidden');
                 document.getElementById('score-display').innerText = `0/${activeGameData.length}`;
                 
                 buildMonstersHTML();
                 
-                // Aspetta che il DOM si aggiorni per disegnare il sentiero
                 setTimeout(() => {
                     document.getElementById('screen-map').style.opacity = '1';
                     drawDynamicPathAndPlacePawn();
@@ -367,11 +420,11 @@
             }, 500);
         }
 
+        // --- MAPPA E SENTIERO ---
         function buildMonstersHTML() {
             const container = document.getElementById('monsters-container');
             container.innerHTML = '';
             
-            // Aggiungi i mostri
             activeGameData.forEach((monster, index) => {
                 const isLeft = index % 2 === 0;
                 const alignClass = isLeft ? 'self-start ml-[10%] md:ml-[25%]' : 'self-end mr-[10%] md:mr-[25%]';
@@ -385,36 +438,28 @@
                 div.onclick = () => { if (index === currentLevel) openQuestion(index); };
                 
                 div.innerHTML = `
-                    <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 text-white/50 font-bold text-sm md:text-base bg-black/30 px-4 py-1 rounded-full border border-white/10 whitespace-nowrap">Livello ${index + 1}</div>
+                    <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 text-white/50 font-bold text-sm md:text-base bg-black/30 px-4 py-1 rounded-full border border-white/10 whitespace-nowrap">Domanda ${index + 1}</div>
                     <div id="monster-svg-${index}" class="w-full h-full animate-float" style="animation-delay: ${index * 0.15}s">
                         <svg viewBox="-10 -10 120 120" width="100%" height="100%" style="filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));">
                             ${svgMarkup}
                         </svg>
                     </div>
-                    <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs md:text-sm font-bold px-4 py-2 rounded-full whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-                        ${monster.name}
-                    </div>
                 `;
                 container.appendChild(div);
             });
 
-            // Aggiungi il nodo finale (Traguardo)
+            // Traguardo
             const finishDiv = document.createElement('div');
             finishDiv.id = 'finish-line-node';
             finishDiv.className = 'w-40 h-40 md:w-56 md:h-56 relative self-center mt-10 z-20 opacity-50 transition-opacity duration-1000';
             finishDiv.innerHTML = `
-                <!-- SVG Mano con Contagocce + Bandiera -->
                 <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_0_20px_#21cf8d] animate-float">
-                    <!-- Bandiera a scacchi base -->
                     <rect x="20" y="70" width="60" height="10" fill="#fff"/>
                     <rect x="30" y="70" width="10" height="10" fill="#000"/><rect x="50" y="70" width="10" height="10" fill="#000"/>
-                    <!-- Contagocce -->
                     <rect x="45" y="10" width="10" height="30" fill="rgba(255,255,255,0.8)" rx="5"/>
-                    <path d="M 45 15 C 45 5, 55 5, 55 15" fill="#d81159"/> <!-- Gommino -->
-                    <rect x="47" y="30" width="6" height="15" fill="#21cf8d"/> <!-- Liquido miracoloso -->
-                    <!-- Goccia che cade -->
+                    <path d="M 45 15 C 45 5, 55 5, 55 15" fill="#d81159"/>
+                    <rect x="47" y="30" width="6" height="15" fill="#21cf8d"/>
                     <path d="M 50 45 C 53 50, 53 55, 50 60 C 47 55, 47 50, 50 45" fill="#21cf8d" class="animate-pulse"/>
-                    <!-- Mano (stilizzata) -->
                     <path d="M 20 40 L 45 30 Q 50 25 55 30 L 70 40 Q 60 50 50 50 L 30 50 Z" fill="#fca311"/>
                 </svg>
                 <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-enchanted-path font-magic text-2xl whitespace-nowrap">LA CURA!</div>
@@ -422,14 +467,12 @@
             container.appendChild(finishDiv);
         }
 
-        // Funzione per disegnare il sentiero curvo calcolando le posizioni reali
         function drawDynamicPathAndPlacePawn() {
             const container = document.getElementById('game-area');
             const svgLayer = document.getElementById('svg-layer');
             const pathGlow = document.getElementById('dynamic-path-glow');
             const pathMain = document.getElementById('dynamic-path');
             
-            // Imposta altezza SVG uguale al contenitore
             svgLayer.style.height = container.scrollHeight + 'px';
             
             const nodes = document.querySelectorAll('.monster-node');
@@ -437,23 +480,15 @@
             
             let points = [];
             nodes.forEach(node => {
-                points.push({
-                    x: node.offsetLeft + node.offsetWidth / 2,
-                    y: node.offsetTop + node.offsetHeight / 2
-                });
+                points.push({ x: node.offsetLeft + node.offsetWidth / 2, y: node.offsetTop + node.offsetHeight / 2 });
             });
-            points.push({
-                x: finishNode.offsetLeft + finishNode.offsetWidth / 2,
-                y: finishNode.offsetTop + finishNode.offsetHeight / 2
-            });
+            points.push({ x: finishNode.offsetLeft + finishNode.offsetWidth / 2, y: finishNode.offsetTop + finishNode.offsetHeight / 2 });
 
-            // Costruzione stringa Path SVG (M per move, C per curve di bezier)
             if (points.length > 0) {
                 let d = `M ${points[0].x},${points[0].y} `;
                 for(let i = 1; i < points.length; i++) {
                     let pPrev = points[i-1];
                     let pCurr = points[i];
-                    // Punti di controllo per fare una curva a S morbida
                     let cpY = pPrev.y + (pCurr.y - pPrev.y) / 2;
                     d += `C ${pPrev.x},${cpY} ${pCurr.x},${cpY} ${pCurr.x},${pCurr.y} `;
                 }
@@ -461,42 +496,30 @@
                 pathMain.setAttribute('d', d);
             }
 
-            // Mostra la pedina e mettila sul primo nodo
             const pawn = document.getElementById('player-pawn');
             pawn.classList.remove('hidden');
             movePawnTo(0);
         }
 
-        // Ricalcola se la finestra cambia dimensione
         window.addEventListener('resize', () => {
             if(!document.getElementById('screen-map').classList.contains('hidden')) {
                 drawDynamicPathAndPlacePawn();
-                movePawnTo(currentLevel); // Rimette a posto la pedina
+                movePawnTo(currentLevel);
             }
         });
 
-        // Muove fisicamente la pedina sulla mappa
         function movePawnTo(index) {
             const pawn = document.getElementById('player-pawn');
-            let targetNode;
+            let targetNode = index < activeGameData.length ? document.getElementById(`node-${index}`) : document.getElementById('finish-line-node');
             
-            if (index < activeGameData.length) {
-                targetNode = document.getElementById(`node-${index}`);
-            } else {
-                targetNode = document.getElementById('finish-line-node');
-            }
-            
-            // Posiziona esattamente al centro del nodo target
             if(targetNode) {
-                const x = targetNode.offsetLeft + targetNode.offsetWidth / 2;
-                const y = targetNode.offsetTop + targetNode.offsetHeight / 2;
-                pawn.style.left = x + 'px';
-                pawn.style.top = y + 'px';
+                pawn.style.left = (targetNode.offsetLeft + targetNode.offsetWidth / 2) + 'px';
+                pawn.style.top = (targetNode.offsetTop + targetNode.offsetHeight / 2) + 'px';
             }
         }
 
 
-        /* ================= MODALE DOMANDE ================= */
+        // --- MODALE DOMANDE ---
         const modal = document.getElementById('question-modal');
         const modalContent = modal.querySelector('.glass-panel');
 
@@ -505,8 +528,6 @@
             const colorHex = colors[monster.colorIdx];
             
             document.getElementById('modal-level-text').innerText = index + 1;
-            document.getElementById('monster-name').innerText = monster.name;
-            document.getElementById('monster-name').style.color = colorHex;
             document.getElementById('question-text').innerText = monster.question;
             
             document.getElementById('modal-monster-avatar').innerHTML = `
@@ -528,13 +549,11 @@
                 answersContainer.appendChild(btn);
             });
 
-            // BLOCCO SCROLL della pagina
             document.body.style.overflow = 'hidden';
-
             modal.classList.remove('hidden');
+            modal.classList.add('flex');
             document.getElementById('error-msg').style.opacity = '0';
             
-            // Timeout piccolissimo per far partire la transizione CSS
             setTimeout(() => {
                 modal.style.opacity = '1';
                 modalContent.style.transform = 'scale(1)';
@@ -566,22 +585,18 @@
             
             setTimeout(() => {
                 modal.classList.add('hidden');
-                // SBLOCCO SCROLL della pagina
+                modal.classList.remove('flex');
                 document.body.style.overflow = '';
                 
-                // Animazione di sconfitta sul mostro nella mappa
                 const nodeEl = document.getElementById(`node-${currentLevel}`);
                 const svgContainer = document.getElementById(`monster-svg-${currentLevel}`);
                 
                 nodeEl.classList.remove('animate-pulse-glow', 'hover:scale-110', 'cursor-pointer');
-                
-                // Applica animazione di vortice (spinShrink)
                 svgContainer.classList.remove('animate-float');
                 svgContainer.classList.add('animate-spin-shrink');
                 
                 createSparkles(nodeEl);
 
-                // Dopo che è sparito, fa avanzare la pedina
                 setTimeout(() => {
                     svgContainer.style.visibility = 'hidden';
                     advanceLevel();
@@ -616,15 +631,12 @@
             currentLevel++;
             document.getElementById('score-display').innerText = `${currentLevel}/${activeGameData.length}`;
             
-            // Muove la pedina al prossimo step
             movePawnTo(currentLevel);
 
             if (currentLevel >= activeGameData.length) {
-                // Illumina il traguardo
                 document.getElementById('finish-line-node').style.opacity = '1';
-                setTimeout(showWinScreen, 1200); // Ritardo per godersi l'arrivo della pedina
+                setTimeout(showWinScreen, 1200); 
             } else {
-                // Sblocca il prossimo mostro
                 const nextNode = document.getElementById(`node-${currentLevel}`);
                 nextNode.classList.remove('monster-locked');
                 nextNode.classList.add('animate-pulse-glow', 'cursor-pointer', 'hover:scale-110');
@@ -635,17 +647,16 @@
             }
         }
 
-        /* ================= WIN SCREEN ================= */
+        // --- VITTORIA ---
         function showWinScreen() {
-            // Blocco scroll di sicurezza
             document.body.style.overflow = 'hidden';
-            
             document.getElementById('screen-map').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('screen-map').classList.add('hidden');
                 
                 const winScreen = document.getElementById('screen-win');
                 winScreen.classList.remove('hidden');
+                winScreen.classList.add('flex');
                 
                 for(let i=0; i<50; i++) createConfetti(winScreen);
                 
@@ -660,7 +671,6 @@
             conf.style.width = '12px';
             conf.style.height = '12px';
             conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            // Forma casuale: quadrato o tondo
             conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '0%';
             
             conf.style.left = Math.random() * 100 + 'vw';
@@ -671,11 +681,7 @@
             conf.animate([
                 { transform: `translate3d(0,0,0) rotate(0deg)`, opacity: 1 },
                 { transform: `translate3d(${Math.random()*400 - 200}px, 100vh, 0) rotate(${720 + Math.random()*360}deg)`, opacity: 0 }
-            ], {
-                duration: duration,
-                easing: 'linear',
-                iterations: Infinity
-            });
+            ], { duration: duration, easing: 'linear', iterations: Infinity });
             
             container.appendChild(conf);
         }
