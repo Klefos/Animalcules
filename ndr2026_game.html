@@ -28,9 +28,10 @@
                         }
                     },
                     animation: {
-                        'float': 'float 3s ease-in-out infinite',
-                        'float-delayed': 'float 3.5s ease-in-out infinite 1s',
-                        'bounce-slow': 'bounce 3s infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                        'float-delayed': 'float 5s ease-in-out infinite 2s',
+                        'float-slow': 'float 6s ease-in-out infinite 1s',
+                        'bounce-slow': 'bounce 4s infinite',
                         'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
                         'pulse-glow': 'pulseGlow 2s infinite',
                         'pop-in': 'popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
@@ -39,7 +40,7 @@
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-                            '50%': { transform: 'translateY(-15px) rotate(3deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(5deg)' },
                         },
                         shake: {
                             '10%, 90%': { transform: 'translate3d(-4px, 0, 0) rotate(-5deg)' },
@@ -160,18 +161,55 @@
 </head>
 <body class="font-body antialiased min-h-screen relative selection:bg-enchanted-magic selection:text-white">
 
-    <!-- Ambient Particles -->
+    <!-- SFONDO GIOCOSO: Particelle, Pillole e Mostriciattoli -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute top-20 left-10 w-4 h-4 bg-yellow-300 rounded-full blur-[2px] animate-float opacity-50"></div>
-        <div class="absolute top-1/3 right-20 w-6 h-6 bg-enchanted-path rounded-full blur-[3px] animate-float-delayed opacity-40"></div>
-        <div class="absolute bottom-1/4 left-1/4 w-3 h-3 bg-enchanted-magic rounded-full blur-[1px] animate-float opacity-60"></div>
+        <!-- Luci soffuse magiche -->
+        <div class="absolute top-20 left-10 w-32 h-32 bg-yellow-300 rounded-full blur-[100px] animate-float opacity-20"></div>
+        <div class="absolute top-1/3 right-20 w-40 h-40 bg-pink-500 rounded-full blur-[120px] animate-float-delayed opacity-20"></div>
+        
+        <!-- Pillola 1 (Rosa/Bianca) -->
+        <svg class="absolute top-[10%] left-[5%] w-12 h-12 text-pink-400 opacity-30 animate-float rotate-45" viewBox="0 0 100 100">
+            <rect x="30" y="20" width="40" height="60" rx="20" fill="currentColor"/>
+            <path d="M30 50 h40 v10 a20 20 0 0 1 -40 0 z" fill="#fff" opacity="0.8"/>
+        </svg>
+
+        <!-- Mostriciattolo Coccus 1 (Viola) -->
+        <svg class="absolute top-[20%] right-[10%] w-16 h-16 text-purple-400 opacity-20 animate-float-delayed -rotate-12" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="currentColor" />
+            <circle cx="35" cy="40" r="4" fill="#1a0b2e"/><circle cx="65" cy="40" r="4" fill="#1a0b2e"/>
+            <path d="M 40 65 Q 50 75 60 65" stroke="#1a0b2e" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </svg>
+
+        <!-- Compressa rotonda -->
+        <svg class="absolute top-[40%] left-[15%] w-10 h-10 text-orange-400 opacity-25 animate-float-slow rotate-12" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="currentColor"/>
+            <line x1="20" y1="50" x2="80" y2="50" stroke="#1a0b2e" stroke-width="6" opacity="0.5"/>
+        </svg>
+
+        <!-- Pillola 2 (Azzurra/Bianca) -->
+        <svg class="absolute bottom-[20%] right-[15%] w-14 h-14 text-cyan-400 opacity-30 animate-float -rotate-45" viewBox="0 0 100 100">
+            <rect x="30" y="20" width="40" height="60" rx="20" fill="currentColor"/>
+            <path d="M30 50 h40 v10 a20 20 0 0 1 -40 0 z" fill="#fff" opacity="0.8"/>
+        </svg>
+
+        <!-- Mostriciattolo Bacillus (Arancione) -->
+        <svg class="absolute bottom-[30%] left-[8%] w-20 h-20 text-orange-500 opacity-20 animate-bounce-slow rotate-12" viewBox="0 0 100 100">
+            <rect x="20" y="30" width="60" height="40" rx="20" fill="currentColor"/>
+            <circle cx="40" cy="45" r="4" fill="#1a0b2e"/><circle cx="60" cy="45" r="4" fill="#1a0b2e"/>
+            <path d="M 40 60 L 60 60" stroke="#1a0b2e" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        
+        <!-- Piccole bollicine/puntini sparsi -->
+        <div class="absolute top-1/4 left-1/2 w-4 h-4 bg-yellow-300 rounded-full animate-float opacity-40"></div>
+        <div class="absolute bottom-1/3 right-1/3 w-6 h-6 bg-pink-400 rounded-full animate-float-delayed opacity-30"></div>
     </div>
 
     <!-- SCREEN 1: IL PROLOGO (La Storia) -->
     <div id="screen-story" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 transition-opacity duration-500">
         <div class="glass-panel rounded-[2rem] p-8 md:p-12 w-full max-w-5xl h-[90vh] flex flex-col relative overflow-hidden animate-pop-in">
             
-            <h1 class="font-magic text-4xl md:text-5xl mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-enchanted-path via-white to-enchanted-glow drop-shadow-lg shrink-0">
+            <!-- TITOLO CON GRADIENTE ROSA -> VIOLA/MAGENTA -> ARANCIONE -->
+            <h1 class="font-magic text-4xl md:text-5xl mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-500 to-orange-400 drop-shadow-lg shrink-0">
                 Il Prologo del Micro-Regno
             </h1>
             
@@ -236,11 +274,13 @@
     <!-- SCREEN 2: START SCREEN (SELEZIONE LIVELLO) -->
     <div id="screen-start" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-500 overflow-y-auto">
         <div class="glass-panel rounded-[2rem] p-8 md:p-12 w-full max-w-4xl text-center relative overflow-hidden my-8 transform scale-95 transition-transform duration-500" id="start-panel">
-            <h1 class="font-magic text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-enchanted-path via-white to-enchanted-glow drop-shadow-lg leading-tight">
-                Seleziona la Difficoltà
+            
+            <!-- TITOLO CON GRADIENTE ROSA -> VIOLA/MAGENTA -> ARANCIONE -->
+            <h1 class="font-magic text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-500 to-orange-400 drop-shadow-lg leading-tight">
+                Il Micro-Regno<br>Incantato
             </h1>
             <p class="text-lg md:text-xl text-blue-100 mb-10 font-semibold">
-                Hai studiato le pergamene? Scegli il tuo sentiero!
+                Hai studiato le pergamene? Scegli la difficoltà del sentiero!
             </p>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -331,7 +371,7 @@
                     <path d="M5 17h14M9 7h6" stroke-linecap="round"/>
                     <circle cx="12" cy="14" r="1.5" fill="#fff" stroke="none"/><circle cx="10" cy="17" r="1" fill="#fff" stroke="none"/><circle cx="14" cy="18" r="1.5" fill="#fff" stroke="none"/>
                 </svg>
-                <h1 class="font-magic text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-enchanted-path to-white drop-shadow-lg">Vittoria Epica!</h1>
+                <h1 class="font-magic text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-500 to-orange-400 drop-shadow-lg">Vittoria Epica!</h1>
                 <p class="text-xl md:text-2xl text-blue-100 mb-10 font-bold max-w-2xl mx-auto">Hai dimostrato di essere un vero ricercatore completando il sentiero!</p>
                 <button onclick="location.reload()" class="magic-btn font-magic text-2xl text-white px-10 py-4 rounded-2xl">Torna al Prologo</button>
             </div>
@@ -350,10 +390,6 @@
 
         const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#9d4edd', '#ff006e', '#fca311', '#00b4d8', '#7209b7', '#ff0054', '#38b000'];
 
-        /* 
-         * ATTENZIONE: TUTTE LE 20 DOMANDE ORA SONO STRETTAMENTE BASATE 
-         * SUL TESTO INTRODUTTIVO (IL PROLOGO) 
-         */
         const fullGameData = [
             { name: 'Lo Storico', shape: 'coccus', colorIdx: 0, question: "Nel Prologo c'è scritto chi ha scoperto per caso il primo antibiotico. Chi era?", options: ["Cristoforo Colombo", "Alexander Fleming", "Galileo Galilei", "Albert Einstein"], correct: 1 },
             { name: 'Il Naturista', shape: 'bacillus', colorIdx: 1, question: "Qual è il nome del primissimo 'antibiotico naturale' scoperto studiando un fungo?", options: ["Aspirina", "Paracetamolo", "Penicillina", "Vitamina C"], correct: 2 },
