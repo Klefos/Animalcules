@@ -149,19 +149,20 @@
         <section id="ndr2026" class="reveal scroll-mt-24">
             <div class="glass-card rounded-3xl p-8 md:p-12 overflow-hidden relative">
                 <!-- SVG Background Decorativo -->
-             <div class="flex-1 flex justify-center w-full max-w-md mx-auto relative group">
+       <div class="flex-1 flex justify-center w-full max-w-md mx-auto relative group">
     <!-- Effetto di bagliore (Glow) posteriore -->
     <div class="absolute inset-0 bg-gradient-to-tr from-sky-400/20 to-emerald-400/20 rounded-full blur-[80px] opacity-50 group-hover:opacity-80 transition-opacity duration-1000"></div>
     
-    <!-- SVG: Scienza Pubblica / Evento -->
+    <!-- SVG: Nuova Ampolla Scienza Pubblica -->
     <svg viewBox="0 0 400 400" class="w-full h-auto filter drop-shadow-[0_10px_30px_rgba(14,165,233,0.4)] relative z-10 transition-transform duration-700 group-hover:scale-105">
         <defs>
-            <linearGradient id="flaskGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <!-- Ho cambiato gli ID per evitare conflitti con la vecchia versione -->
+            <linearGradient id="newFlaskGrad" x1="0%" y1="100%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#0ea5e9"></stop>
                 <stop offset="100%" stop-color="#10b981"></stop>
             </linearGradient>
             
-            <radialGradient id="glowGlow" cx="50%" cy="50%" r="50%">
+            <radialGradient id="newGlowGlow" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="#fff" stop-opacity="1" />
                 <stop offset="40%" stop-color="#10b981" stop-opacity="0.8" />
                 <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0" />
@@ -170,7 +171,7 @@
 
         <!-- Liquido Magico (Conoscenza) - Base e Superficie 3D -->
         <!-- Corpo del liquido -->
-        <path d="M 120 230 C 120 230, 95 270, 100 285 C 105 300, 120 310, 200 310 C 280 310, 295 300, 300 285 C 305 270, 280 230, 280 230 Z" fill="url(#flaskGrad)"></path>
+        <path d="M 120 230 C 120 230, 95 270, 100 285 C 105 300, 120 310, 200 310 C 280 310, 295 300, 300 285 C 305 270, 280 230, 280 230 Z" fill="url(#newFlaskGrad)"></path>
         <!-- Superficie ovale del liquido -->
         <ellipse cx="200" cy="230" rx="80" ry="12" fill="#10b981" opacity="0.8"></ellipse>
 
@@ -207,7 +208,7 @@
         <!-- Atomo / Scintille di Scienza Centrale -->
         <g transform="translate(200, 150)">
             <!-- Nucleo radioso -->
-            <circle cx="0" cy="0" r="18" fill="url(#glowGlow)"></circle>
+            <circle cx="0" cy="0" r="18" fill="url(#newGlowGlow)"></circle>
             
             <!-- Orbita 1 (Ciano) -->
             <ellipse cx="0" cy="0" rx="50" ry="15" fill="none" stroke="#0ea5e9" stroke-width="2" transform="rotate(30)">
