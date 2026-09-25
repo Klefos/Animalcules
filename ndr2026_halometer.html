@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIMALCULES - Il Misuratore Magico</title>
+    <title>ANIMALCULES - HaloMeter</title>
     
     <!-- Font giocosi -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,6 +87,24 @@
             box-shadow: 0 0 30px rgba(33, 207, 141, 0.5) inset;
         }
 
+        /* --- RIMOZIONE SCROLLBAR E FRECCE DA INPUT --- */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield; /* Firefox */
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+            overflow: hidden; /* Evita lo scroll interno */
+        }
+
         /* --- ANIMAZIONI VITTORIA ANTIBIOTICO --- */
         .anim-win-pill {
             animation: pillSmash 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
@@ -166,8 +184,8 @@
             <span class="px-4 py-2 rounded-full bg-white/10 text-enchanted-glow font-bold tracking-widest text-xs uppercase border border-enchanted-glow/30">
                 Laboratorio Magico di Microbiologia
             </span>
-            <h1 class="font-magic text-4xl md:text-6xl mt-4 text-transparent bg-clip-text bg-gradient-to-r from-enchanted-pill via-white to-enchanted-path drop-shadow-lg leading-tight">
-                Il Misuratore<br>degli Aloni
+            <h1 class="font-magic text-6xl md:text-8xl mt-4 text-transparent bg-clip-text bg-gradient-to-r from-enchanted-pill via-white to-enchanted-path drop-shadow-lg leading-tight tracking-wider">
+                HaloMeter
             </h1>
         </div>
 
@@ -180,7 +198,7 @@
             <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-8">
                 <div class="relative">
                     <input type="number" id="alone-input" min="0" max="100" placeholder="Es. 12" 
-                           class="input-magico rounded-3xl text-center text-5xl font-magic text-white w-48 h-32 placeholder-white/30 transition-all">
+                           class="input-magico no-scrollbar rounded-3xl text-center text-5xl font-magic text-white w-48 h-32 placeholder-white/30 transition-all">
                     <span class="absolute bottom-4 right-4 text-xl font-bold text-white/50">mm</span>
                 </div>
                 
